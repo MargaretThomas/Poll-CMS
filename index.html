@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Poll Widget</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
+	<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script>
+	<script src="controllers/pollController.js"></script>
+	<script src="directives/pollDirectives.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css" /> 
+</head>
+<body ng-app="pollApp" ng-controller="cmsController">
+	<ul>
+		<li><a ui-sref="home">Home</a></li>
+		<li><a ui-sref="addPoll">Add A New Poll</a></li>
+		<li><a ui-sref="results">View Poll Results</a></li>
+		<li><a ui-sref="help">Help</a></li>
+		<li><a ui-sref="login">Logout</a></li>
+	</ul>
+	<!-- Placeholder for the different pages -->
+	<div ui-view></div>
+</body>
+</html>
