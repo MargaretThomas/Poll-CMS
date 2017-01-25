@@ -1,3 +1,7 @@
-<div id="divHome" style="background-color:pink">
-	<p>Fill this with Home info</p>
+<div id="divHome" ng-controller="cmsController">
+	<h1>Here are your polls</h1>
+	<div ng-repeat="obj in poll">
+		<single-poll poll="obj"></single-poll>
+		<br>
+	</div>
 </div>

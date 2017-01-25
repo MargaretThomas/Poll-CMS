@@ -1,0 +1,12 @@
+<fieldset id="pollFieldset">
+	<legend id="pollLegend">{{poll.title}}</legend>
+	<p>Poll ID: {{poll.pollID}}</p>
+	<p>Description: {{poll.description}}</p>
+	<ul id="pollDetails">
+		<li>Total Votes: {{poll.totalVotes}}</li>
+		<li>End Date: {{poll.endDate}}</li>
+		<li>Status: {{poll.pollStatus}}</li>
+	</ul>
+	<!-- Sending through the current poll id so that the results page will show the results for that poll. -->
+	<view-results id="poll.pollID"></view-results>
+</fieldset>

@@ -1,6 +1,8 @@
 var app = angular.module("pollApp", ["ui.router"])
 app.config(function($stateProvider, $urlRouterProvider) {
+	// Default to go to the Home page.
 	$urlRouterProvider.otherwise("/home");
+	// Various states of the app.
     $stateProvider
     .state("login", {
 		url: "/login",
@@ -49,4 +51,11 @@ app.controller('cmsController', function($scope, $state){
 	$scope.goToPublish = function(){
 		$state.go("publish");
 	}
+	$scope.goToResults = function(){
+		$state.go("results");
+	}
+	// Dummy content for now. Here is where the the API request will be made.
+	var data = [{pollStatus:"Closed", pollID:"1", title:"Favourite Vegetable", description:"Poll to determine the most favourite vegetable.", question:"What is your favourite veggie?", answerCount:3, totalVotes:20, endDate:"2017-01-15T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite Vegetable Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com"}, {pollStatus:"Open", pollID:"2", title:"Favourite Fruit", description:"Poll to find out what is the most favourite fruit.", question:"What is your favourite fruit?", answerCount:3, totalVotes:20, endDate:"2017-02-19T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite fruit Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com"}];
+	
+	$scope.poll = data;
 });
