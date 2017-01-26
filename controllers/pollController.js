@@ -1,4 +1,4 @@
-var app = angular.module("pollApp", ["ui.router"])
+var app = angular.module("pollApp", ["ui.router", "ngMaterial"])
 app.config(function($stateProvider, $urlRouterProvider) {
 	// Default to go to the Home page.
 	$urlRouterProvider.otherwise("/home");
