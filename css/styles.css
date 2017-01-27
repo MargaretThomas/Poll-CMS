@@ -1,6 +1,7 @@
 /* Poll Body */
 #pollBody{
 	background-color: #4D4D4D; /* Dark Grey */
+	height: 100%;
 }
 
 /* Navigation Bar */
@@ -9,7 +10,7 @@ ul#navBar{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #FFF ; /* Dark Orange */
+    background-color: #FFF ;
     border: solid 1px #000;
 }
 li#navItem {
@@ -24,29 +25,53 @@ li#navItem a {
     font-weight: bold;
 }
 li#navItem a:hover {
-    background-color: #ED7D31; /* Light Orange */
+    background-color: #ED7D31; /* Dark Orange */
 	color: #FFF;
+	font-weight: bold;
 }
 
 /* Home screen */
-#divHome h1{
+#divHome h1, #divAddPoll h1{
 	text-align: center;
-        color: #FFF;
-        font-weight: bold;
+    color: #FFF; /* White */
+    font-weight: bold;
 }
 /* Fieldset for the poll */
 #pollFieldset{
-	background-color: white;
-        border-radius:10px; 
+	background-color: #FFF;
+    border-radius:10px; 
 }
 #pollLegend{
     border: none;
 	padding: 10px;
 	color: #FFF;
-	background-color: #ED7D31;
-    border-radius:5px; 
+	background-color: #ED7D31; /* Dark Orange */
+    border-radius:5px;
+	font-size: 15px;	
 }
 /* Button to go to the results for the selected poll. */
-#orangeButton{
-	background-color: #ED7D31;display: block; border-radius:5px; border: none;text-align: center;text-decoration: none;font-size: 15px;margin: 5px;color: #FFF;padding: 5px;
+#orangeButton, #addPoll{
+	background-color: #ED7D31;
+	display: block; 
+	border-radius:5px; 
+	border: none;
+	text-align: 
+	center;
+	text-decoration: 
+	none;
+	font-size: 15px;
+	margin: 5px;
+	color: #FFF;
+	padding: 5px;
+}
+#addPoll{
+	margin: auto;
+}
+/* Add Poll Details */
+.pollForm{
+	background-color: #FFF;
+	padding: 10px;
+}
+.formItem{
+	margin: 10px 0px 10px 0px;
 }
