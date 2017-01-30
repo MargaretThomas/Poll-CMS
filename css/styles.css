@@ -31,7 +31,7 @@ li#navItem a:hover {
 }
 
 /* Home screen */
-#divHome h1, #divAddPoll h1, #divAddAnswers h1{
+h1, h2{
 	text-align: center;
     color: #FFF; /* White */
     font-weight: bold;
@@ -50,7 +50,7 @@ li#navItem a:hover {
 	font-size: 15px;	
 }
 /* Button to go to the results for the selected poll. */
-#btnResult, #addPoll, #addAnswers, #preview{
+#btnResult, #addPoll, #backToPoll, #addAnswers, #backToAnswers, #preview, #publish{
 	background-color: #ED7D31;
 	display: block; 
 	border-radius:5px; 
@@ -67,16 +67,17 @@ li#navItem a:hover {
 #addAnswers{
 	margin: auto;
 }
-#addPoll{
+#backToPoll, #backToAnswers{
 	float: left;
 }
-#preview{
+#preview, #publish{
 	float: right;
 }
 /* Add Poll Details */
-.pollForm{
+.pollForm, .states{
 	background-color: #FFF;
 	padding: 10px;
+	margin: 10px;
 }
 .formItem{
 	margin: 10px 0px 10px 0px;
@@ -84,4 +85,7 @@ li#navItem a:hover {
 /* Add Answers for the poll */
 #ans{
 	height: 0;
+}
+#divPreview{
+	background-color: #4D4D4D;
 }
