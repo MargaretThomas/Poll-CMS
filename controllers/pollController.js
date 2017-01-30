@@ -42,6 +42,9 @@ app.controller('cmsController', function($scope, $state){
 	$scope.goToHome = function(){
 		$state.go("home");
 	};
+	$scope.goToAddPoll = function(){
+		$state.go("addPoll");
+	}
 	$scope.goToAddAnswers = function(){
 		$state.go("addAnswers");
 	}

@@ -1,4 +1,28 @@
-<div id="divAddAnswers" style="background-color:red">
-	<p>Fill this with Add Answers info</p>
-	<button ng-click="goToPreview()">Preview</button>
+<div id="divAddAnswers"  height="1000">
+	<h1>Please fill out this form</h1>
+	<div class="w3-content" height="1000">
+		<div class="w3-center pollForm">
+			<form>
+				<md-input-container class="formItem">
+					<label>Option 1:</label>
+					<input  type="text" name="title" ng-model="title" required="required" />
+					<div ng-messages="title.$error">
+						<div ng-message="required">This is required.</div>
+					</div>
+				</md-input-container>
+				<br>
+				<md-input-container class="formItem">
+					<label>Option 2:</label>
+					<input type="text" name="description" ng-model="description" required="required" />
+					<div ng-messages="description.$error">
+						<div ng-message="required">This is required.</div>
+					</div>
+				</md-input-container>
+				<br>
+			</form>
+			<br>
+			<md-button id="addPoll" class="md-raised" ng-click="goToAddPoll()">Back To Add Poll Details</md-button>	
+			<md-button id="preview" class="md-raised" ng-click="goToPreview()">Preview Poll</md-button>			
+		</div>
+	</div>
 </div>
