@@ -1,3 +1,28 @@
-<div id="divPublish" style="background-color:yellow">
-	<p>Fill this with Publish info</p>
+<div id="divPublish" ng-init="loadWidgetInfo()">
+	<h1>{{newPoll.title}}</h1>
+	<hr />
+    <br />
+	<div class="w3-content whiteBlock">
+		<div class="w3-row w3-center">
+			<h2 style="color:#000">{{newPoll.title}} has been successfully created</h2>	
+		</div>
+		<div class="w3-row">
+			<div class="w3-half">
+				<fieldset class="orangeFieldset" style="height:150px">
+					<legend class="orangeLegend">Shareable Link</legend>
+					<p>Here is the link which you can use to share: <a href="{{newPoll.websiteForSharing}}" target="_blank">{{newPoll.websiteForSharing}}</a></p>		
+				</fieldset>
+			</div>
+			<div class="w3-half">
+				<fieldset class="orangeFieldset" style="height:150px">
+					<legend class="orangeLegend">Embeddable Widget</legend>
+					<p>Here is the code for your widget:</p>		
+				</fieldset>
+			</div>
+		</div>
+		<div class="w3-row">
+			<md-button id="backToPreview" class="md-raised" ng-click="goToPreview()">Back To Preview Poll</md-button>	
+			<md-button id="home" class="md-raised" ng-click="goToHome()">Go Home</md-button>	
+		</div>
+	</div>
 </div>

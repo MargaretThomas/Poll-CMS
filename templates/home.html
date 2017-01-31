@@ -1,8 +1,8 @@
-<div id="divHome" ng-controller="cmsController">
+<div id="divHome" class="w3-content" ng-controller="cmsController">
 	<h1>Here are your polls</h1>
-    <hr>
-    <br>
-    <div class="w3-content">
+    <hr />
+    <br />
+    <div class="w3-row">
 		<div ng-repeat="obj in poll" class="w3-half">
 			<single-poll poll="obj"></single-poll>
 		</div>

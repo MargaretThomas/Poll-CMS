@@ -43,15 +43,16 @@ app.controller('cmsController', function($scope, $state){
 	}
 	$scope.goToAddAnswers = function(){
 		// Capture new poll details.
-		var newPoll = {pollStatus:"Open", pollID:"3", title:"Favourite Soup", question:"What is your favourite soup?", answerCount:3, totalVotes:20, startDate:"2017-02-01T08:00:00Z", endDate:"2017-02-19T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite Soup Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com"};
+		var newPoll = {pollStatus:"Open", pollID:"3", title:"Favourite Genre", question:"What type of music would you like to hear today?", answerCount:4, totalVotes:10, startDate:"2017-01-31T08:00:00Z", endDate:"2017-01-31T17:00:00Z", thanksMessage:"Thanks for participating in the Favourite Genre Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"https://www.ecr.co.za/"};
 		localStorage.setItem("poll", JSON.stringify(newPoll));
 		$state.go("addAnswers");
 	}
 	$scope.goToPreview = function(){
 		// Capture the answers.
-		var answers = [["Tomato Soup",11], ["Potato Soup",6], ["Leek Soup", 4]];
-		$scope.chosenAnswer = "Tomato Soup";
+		var answers = [["Jazz",3], ["Pop",2], ["Deep House", 4], ["Rock", 1]];
+		var chosenAnswer = "Jazz";
 		localStorage.setItem("answers", JSON.stringify(answers));
+		localStorage.setItem("chosenAnswer", chosenAnswer);
 		$state.go("preview");
 	}
 	$scope.goToPublish = function(){
@@ -78,6 +79,7 @@ app.controller('cmsController', function($scope, $state){
 			$scope.ans.push(singleAnswer[0]);
 			$scope.ansVote.push(singleAnswer[1]);
 		}
+		$scope.chosenAnswer = localStorage.getItem("chosenAnswer");
 	}
 	$scope.formatNumber = function(votes) {
 		return Math.round(votes); 

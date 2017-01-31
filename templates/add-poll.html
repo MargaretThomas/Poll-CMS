@@ -1,7 +1,9 @@
 <div id="divAddPoll">
 	<h1>Fill this with add poll info</h1>
-	<div class="w3-content">
-		<div class="w3-center w3-row pollForm">
+	<hr>
+    <br />
+	<div class="w3-row">
+		<div class="w3-center whiteBlock">
 			<div class="w3-half">
 				<form>
 					<md-input-container class="formItem">
@@ -51,9 +53,9 @@
 					</md-input-container>
 					<br />
 					<md-input-container class="formItem">
-						<label>Image URL:</label>
-						<input type="text" name="imageURL" ng-model="imageURL" required="required" />
-						<div ng-messages="imageURL.$error">
+						<label>Notification Text:</label>
+						<input type="text" name="notifyText" ng-model="notifyText" required="required" />
+						<div ng-messages="notifyText.$error">
 							<div ng-message="required">This is required.</div>
 						</div>
 					</md-input-container>

@@ -37,11 +37,11 @@ h1, h2{
     font-weight: bold;
 }
 /* Fieldset for the poll */
-#pollFieldset{
+.orangeFieldset{
 	background-color: #FFF;
     border-radius:10px; 
 }
-#pollLegend{
+.orangeLegend{
     border: none;
 	padding: 10px;
 	color: #FFF;
@@ -50,7 +50,7 @@ h1, h2{
 	font-size: 15px;	
 }
 /* Button to go to the results for the selected poll. */
-#btnResult, #addPoll, #backToPoll, #addAnswers, #backToAnswers, #preview, #publish{
+#btnResult, #addPoll, #backToPoll, #addAnswers, #backToAnswers, #preview, #backToPreview, #publish, #home{
 	background-color: #ED7D31;
 	display: block; 
 	border-radius:5px; 
@@ -67,14 +67,14 @@ h1, h2{
 #addAnswers{
 	margin: auto;
 }
-#backToPoll, #backToAnswers{
+#backToPoll, #backToAnswers, #backToPreview{
 	float: left;
 }
-#preview, #publish{
+#preview, #publish, #home{
 	float: right;
 }
 /* Add Poll Details */
-.pollForm, .states{
+.whiteBlock{
 	background-color: #FFF;
 	padding: 10px;
 	margin: 10px;
@@ -82,10 +82,13 @@ h1, h2{
 .formItem{
 	margin: 10px 0px 10px 0px;
 }
+md-input-container label, md-placeholder{
+	color: #000;
+}
 /* Add Answers for the poll */
 #ans{
 	height: 0;
 }
-#divPreview{
+#divHome, #divAddPoll, #divAddAnswers, #divPreview, #divPublish{
 	background-color: #4D4D4D;
 }
