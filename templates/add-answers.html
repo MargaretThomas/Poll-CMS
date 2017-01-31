@@ -1,4 +1,37 @@
-<div id="divAddAnswers" style="background-color:red">
-	<p>Fill this with Add Answers info</p>
-	<button ng-click="goToPreview()">Preview</button>
+<div id="divAddAnswers">
+	<h1>Please fill out this form</h1>
+	<hr />
+    <br />
+	<div class="w3-content">
+		<div class="w3-center w3-row whiteBlock">
+			<md-input-container class="formItem">
+				<label>Option 1:</label>
+				<input  type="text" name="option1" ng-model="option1" required="required" />
+				<div ng-messages="option1.$error">
+					<div ng-message="required">This is required.</div>
+				</div>
+			</md-input-container>
+			<br />
+			<md-input-container class="formItem">
+				<label>Option 2:</label>
+				<input type="text" name="option2" ng-model="option2" required="required" />
+				<div ng-messages="option2.$error">
+					<div ng-message="required">This is required.</div>
+				</div>
+			</md-input-container>
+			<br />
+			<md-input-container class="formItem">
+				<label>Option 3:</label>
+				<input type="text" name="option3" ng-model="option3" />
+			</md-input-container>
+			<br />
+			<md-input-container class="formItem">
+				<label>Option 4:</label>
+				<input type="text" name="option4" ng-model="option4" />
+			</md-input-container>
+			<br />
+			<md-button id="backToPoll" class="md-raised" ng-click="goToAddPoll()">Back To Add Poll Details</md-button>	
+			<md-button id="preview" class="md-raised" ng-click="goToPreview()">Preview Poll</md-button>			
+		</div>
+	</div>
 </div>

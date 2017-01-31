@@ -1,11 +1,9 @@
-var app = angular.module("pollApp", ["ui.router"])
+var app = angular.module("pollApp", ["ui.router", "ngMaterial"])
 app.config(function($stateProvider, $urlRouterProvider) {
+	// Default to go to the Home page.
 	$urlRouterProvider.otherwise("/home");
+	// Various states of the app.
     $stateProvider
-    .state("login", {
-		url: "/login",
-        templateUrl : "templates/login.html"
-    })
 	.state("home", {
 		url: "/home",
 		templateUrl: "templates/home.html"
@@ -40,13 +38,51 @@ app.controller('cmsController', function($scope, $state){
 	$scope.goToHome = function(){
 		$state.go("home");
 	};
+	$scope.goToAddPoll = function(){
+		$state.go("addPoll");
+	}
 	$scope.goToAddAnswers = function(){
+		// Capture new poll details.
+		var newPoll = {pollStatus:"Open", pollID:"3", title:"Favourite Genre", question:"What type of music would you like to hear today?", answerCount:4, totalVotes:10, startDate:"2017-01-31T08:00:00Z", endDate:"2017-01-31T17:00:00Z", thanksMessage:"Thanks for your feedback!", closedMessage:"The Genre Poll is now Closed!", websiteForSharing:"https://www.ecr.co.za/"};
+		localStorage.setItem("poll", JSON.stringify(newPoll));
 		$state.go("addAnswers");
 	}
 	$scope.goToPreview = function(){
+		// Capture the answers.
+		var answers = [["Jazz",3], ["Pop",2], ["Deep House", 4], ["Rock", 1]];
+		var chosenAnswer = "Jazz";
+		localStorage.setItem("answers", JSON.stringify(answers));
+		localStorage.setItem("chosenAnswer", chosenAnswer);
 		$state.go("preview");
 	}
 	$scope.goToPublish = function(){
 		$state.go("publish");
+	}
+	$scope.goToResults = function(){
+		$state.go("results");
+	}
+	// Dummy content for now. Here is where the the API request will be made.
+	var data = [{pollStatus:"Closed", pollID:"1", title:"Favourite Vegetable", description:"Poll to determine the most favourite vegetable.", question:"What is your favourite veggie?", answerCount:3, totalVotes:20, endDate:"2017-01-15T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite Vegetable Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com"}, {pollStatus:"Open", pollID:"2", title:"Favourite Fruit", description:"Poll to find out what is the most favourite fruit.", question:"What is your favourite fruit?", answerCount:3, totalVotes:20, endDate:"2017-02-19T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite fruit Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com"}];
+	
+	$scope.poll = data;
+	
+	$scope.loadWidgetInfo = function(){
+		// Load stuff from dummy API.
+		$scope.ans = [];
+		$scope.ansVote = [];
+		var index = 0;
+		$scope.newPoll = JSON.parse(localStorage.getItem("poll"));
+		var answers = JSON.parse(localStorage.getItem("answers"));
+		$scope.answers = answers;
+		for(var item in answers){
+			var singleAnswer = answers[item];
+			$scope.ans.push(singleAnswer[0]);
+			$scope.ansVote.push(singleAnswer[1]);
+		}
+		$scope.chosenAnswer = localStorage.getItem("chosenAnswer");
+	}
+	$scope.formatNumber = function(votes) {
+		return Math.round(votes); 
+		//return votes;
 	}
 });

@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Poll Widget</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
-	<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script>
-	<script src="controllers/pollController.js"></script>
-	<script src="directives/pollDirectives.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/styles.css" /> 
+	<title>Poll Manager</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> <!-- Angular -->
+	<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script> <!-- Configure state -->
+	<script src="controllers/pollController.js"></script> <!-- Link to controller -->
+	<script src="directives/pollDirectives.js"></script> <!-- Link to directive -->
+	<script src="directives/previewWidgetDirective.js"></script> <!-- Link to directive -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Some responsiveness -->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" /> <!-- HTML properties -->
+	<link rel="stylesheet" type="text/css" href="css/styles.css" /> <!-- Styles -->
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> <!-- W3 Styles -->
+	<!-- Angular Material -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 </head>
-<body ng-app="pollApp" ng-controller="cmsController">
-	<ul>
-		<li><a ui-sref="home">Home</a></li>
-		<li><a ui-sref="addPoll">Add A New Poll</a></li>
-		<li><a ui-sref="results">View Poll Results</a></li>
-		<li><a ui-sref="help">Help</a></li>
-		<li><a ui-sref="login">Logout</a></li>
+<body id="pollBody" ng-app="pollApp" ng-controller="cmsController">
+	<ul id="navBar">
+		<li id="navItem"><a ui-sref="home">Home</a></li>
+		<li id="navItem"><a ui-sref="addPoll">Add A New Poll</a></li>
+		<li id="navItem"><a ui-sref="results">View Poll Results</a></li>
+		<li id="navItem"><a ui-sref="help">Help</a></li>
 	</ul>
 	<!-- Placeholder for the different pages -->
 	<div ui-view></div>

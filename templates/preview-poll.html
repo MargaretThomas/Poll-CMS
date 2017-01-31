@@ -1,4 +1,67 @@
-<div id="divPreview" style="background-color:green">
-	<p>Fill this with Preview info</p>
-	<button ng-click="goToPublish()">Publish</button>
+<div id="divPreview">
+	<h1>Here is what your widget will look like:</h1>
+	<hr />
+    <br />
+	<div class="w3-row-padding">
+		<div class="w3-third">
+			<h2>First State</h2>
+			<div id="sp-FirstState" class="whiteBlock" ng-init="loadWidgetInfo()">
+				<h2 id="fs-h2" style="font-weight: bold;color: #000;">{{newPoll.title}}</h2>
+				<h4 id="fs-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
+				<div id="fs-div" ng-repeat="x in ans">
+					<answers data="x"></answers>
+				</div>
+				<p id="votesParagraph">{{newPoll.totalVotes}} people voted</p>
+				<p id="timeParagraph">Time Remaining:</p>
+				<time-left poll="newPoll.endDate"></time-left>
+			</div>
+		</div>
+		<div class="w3-third">
+			<h2>Second State</h2>
+			<!-- SouthPoll as sp -->
+			<div id="sp-SecondState" class="whiteBlock" ng-init="loadWidgetInfo()">
+				<!-- SecondState as ss -->
+				<h2 id="ss-h2" style="font-weight: bold;color: #000;">{{newPoll.title}}</h2>
+				<h3 id="ss-h3" style="font-weight: bold;color: #000;">{{newPoll.thanksMessage}}</h3>
+				<h4 id="ss-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
+					<p>You selected: {{chosenAnswer}}</p>
+				<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;">
+					<th id="ss-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
+					<th id="ss-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
+					<tr id="ss-tr" ng-repeat="item in answers" style="background-color: #FFF;">
+						<td id="ss-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ item[0] }}</td>
+						<td id="ss-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ formatNumber(item[1]/newPoll.totalVotes*100) }}%</td>
+					</tr>
+				</table>
+				<p id="ss-totalVotes" >{{newPoll.totalVotes}} people voted</p>
+				<time-left></time-left>
+			</div>
+		</div>
+		<div class="w3-third">
+			<h2>Third State</h2>
+			<!-- SouthPoll as sp -->
+			<div id="sp-ThirdState" class="whiteBlock" ng-init="loadWidgetInfo()">
+				<!-- ThirdState as ts -->
+				<h2 id="ts-h2" style="font-weight: bold;color: #000;">{{newPoll.title}}</h2>
+				<h3 id="ts-h3" style="font-weight: bold;color: #000;">{{newPoll.closedMessage}}</h3>
+				<h4 id="ts-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
+				<p id="ts-SelectedAnswer" >You selected: {{chosenAnswer}}</p>
+				<table id="ts-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;">
+					<th id="ts-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
+					<th id="ts-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
+					<tr id="ts-tr" ng-repeat="item in answers" style="background-color: #FFF;">
+						<td id="ts-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ item[0] }}</td>
+						<td id="ts-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ formatNumber(item[1]/newPoll.totalVotes*100) }}%</td>
+					</tr>
+				</table>
+				<p id="ts-totalVotes">{{newPoll.totalVotes}} people voted</p>
+			</div>
+		</div>
+	</div>
+	<br />
+	<br />
+	<div class="w3-row">
+		<md-button id="backToAnswers" class="md-raised" ng-click="goToAddAnswers()">Back To Add Answers</md-button>	
+		<md-button id="publish" class="md-raised" ng-click="goToPublish()">Publish Poll</md-button>	
+	</div>	
 </div>

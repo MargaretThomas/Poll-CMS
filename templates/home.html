@@ -1,3 +1,10 @@
-<div id="divHome" style="background-color:pink">
-	<p>Fill this with Home info</p>
+<div id="divHome">
+	<h1>Here are your polls</h1>
+    <hr />
+    <br />
+    <div class="w3-row w3-content">
+		<div ng-repeat="obj in poll" class="w3-half">
+			<single-poll poll="obj"></single-poll>
+		</div>
+    </div>
 </div>

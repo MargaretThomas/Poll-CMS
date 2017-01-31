@@ -1,24 +1,93 @@
+/* Poll Body */
+#pollBody{
+	background-color: #4D4D4D; /* Dark Grey */
+	height: 100%;
+}
+
 /* Navigation Bar */
-ul {
+ul#navBar{
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #E6E6E6; /* Light Grey */
+    background-color: #FFF ;
+    border: solid 1px #000;
 }
-
-li {
+li#navItem {
     float: left;
 }
-
-li a {
+li#navItem a {
     display: block;
     color: #000;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-weight: bold;
+}
+li#navItem a:hover {
+    background-color: #ED7D31; /* Dark Orange */
+	color: #FFF;
+	font-weight: bold;
 }
 
-li a:hover {
-    background-color: #FFE6CC; /* Light Orange */
+/* Home screen */
+h1, h2{
+	text-align: center;
+    color: #FFF; /* White */
+    font-weight: bold;
+}
+/* Fieldset for the poll */
+.orangeFieldset{
+	background-color: #FFF;
+    border-radius:10px; 
+}
+.orangeLegend{
+    border: none;
+	padding: 10px;
+	color: #FFF;
+	background-color: #ED7D31; /* Dark Orange */
+    border-radius:5px;
+	font-size: 15px;	
+}
+/* Button to go to the results for the selected poll. */
+#btnResult, #addPoll, #backToPoll, #addAnswers, #backToAnswers, #preview, #backToPreview, #publish, #home{
+	background-color: #ED7D31;
+	display: block; 
+	border-radius:5px; 
+	border: none;
+	text-align:center;
+	text-decoration:none;
+	font-size: 15px;
+	margin: 5px;
+	color: #FFF;
+	padding: 5px;
+}
+#addAnswers{
+	margin: auto;
+}
+#backToPoll, #backToAnswers, #backToPreview{
+	float: left;
+}
+#preview, #publish, #home{
+	float: right;
+}
+/* Add Poll Details */
+.whiteBlock{
+	background-color: #FFF;
+	padding: 10px;
+	margin: 10px;
+}
+.formItem{
+	margin: 10px 0px 10px 0px;
+}
+md-input-container label, md-placeholder{
+	color: #000;
+}
+/* Add Answers for the poll */
+#ans{
+	height: 0;
+}
+/* Giving all the main divs a dark background color. */
+#divHome, #divAddPoll, #divAddAnswers, #divPreview, #divPublish, #divHelp{
+	background-color: #4D4D4D;
 }
