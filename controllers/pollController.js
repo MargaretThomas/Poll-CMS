@@ -43,7 +43,7 @@ app.controller('cmsController', function($scope, $state){
 	}
 	$scope.goToAddAnswers = function(){
 		// Capture new poll details.
-		var newPoll = {pollStatus:"Open", pollID:"3", title:"Favourite Genre", question:"What type of music would you like to hear today?", answerCount:4, totalVotes:10, startDate:"2017-01-31T08:00:00Z", endDate:"2017-01-31T17:00:00Z", thanksMessage:"Thanks for participating in the Favourite Genre Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"https://www.ecr.co.za/"};
+		var newPoll = {pollStatus:"Open", pollID:"3", title:"Favourite Genre", question:"What type of music would you like to hear today?", answerCount:4, totalVotes:10, startDate:"2017-01-31T08:00:00Z", endDate:"2017-01-31T17:00:00Z", thanksMessage:"Thanks for your feedback!", closedMessage:"The Genre Poll is now Closed!", websiteForSharing:"https://www.ecr.co.za/"};
 		localStorage.setItem("poll", JSON.stringify(newPoll));
 		$state.go("addAnswers");
 	}
