@@ -46,11 +46,7 @@ app.directive('timeLeft', ['$interval', 'dateFilter', '$state', function($interv
 			currentDate.setHours(currentDate.getHours() + extraHours);
 			// Calculate the difference in milliseconds
 			var difference_ms = endDate.getTime() - currentDate.getTime();
-			if(difference_ms <= 0){
-				poll.pollStatus = "Closed";
-				localStorage.setItem("poll", JSON.stringify(poll));
-				$state.go("third");
-			}else{
+			if(difference_ms > 1){
 				//take out milliseconds
 				difference_ms = difference_ms/1000;
 				var seconds = Math.floor(difference_ms % 60);
