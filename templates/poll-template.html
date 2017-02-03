@@ -1,11 +1,11 @@
 <fieldset class="orangeFieldset">
-	<legend class="orangeLegend">{{poll.title}}</legend>
-	<p>Poll ID: {{poll.pollID}}</p>
-	<p>Description: {{poll.description}}</p>
+	<legend class="orangeLegend">{{poll.poll_title}}</legend>
+	<p>Poll ID: {{poll.poll_guid}}</p>
+	<p>Description: {{poll.poll_description}}</p>
 	<ul id="pollDetails">
 		<li>Total Votes: {{poll.totalVotes}}</li>
-		<li>End Date: {{poll.endDate}}</li>
-		<li>Status: {{poll.pollStatus}}</li>
+		<li>End Date: {{poll.end_date}}</li>
+		<li>Status: {{poll.status}}</li>
 		<li>Author: {{poll.author}}</li>
 	</ul>
 	<!-- Sending through the current poll id so that the results page will show the results for that poll. -->

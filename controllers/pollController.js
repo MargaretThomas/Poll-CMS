@@ -1,4 +1,42 @@
 var app = angular.module("pollApp", ["ui.router", "ngMaterial"])
+app.factory('myFactory', ['$http',
+        function($http) {
+			// Get all polls for the tenant.
+			var getAllPolls = function(callback){
+				$http({
+				method: 'GET',
+				url: 'http://pollapi.azurewebsites.net/123/api/polls',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+				}).then(function successCallback(response) {
+					// this callback will be called asynchronously
+					// when the response is available
+					alert("success");
+					alert("bob "+response.data);
+					callback(response.data);
+				}, function errorCallback(response) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+					alert("failed");
+				});
+			}
+			// Getting the last poll created.
+			var getLastPoll = function(callback) {
+				var endPoint = 'http://pollapi.azurewebsites.net/123/api/polls/last';
+	
+				$http.jsonp(endPoint).success(function(response) {
+					callback(response.data);
+				});
+            };
+			
+            return {
+				funcAllPolls: getAllPolls,
+                funcLastPoll: getLastPoll
+            }
+        }
+]);
 app.config(function($stateProvider, $urlRouterProvider) {
 	// Default to go to the Home page.
 	$urlRouterProvider.otherwise("/home");
@@ -33,7 +71,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: "templates/help.html"
 	});
 });
-app.controller('cmsController', function($scope, $state){
+app.controller('cmsController', function($scope, $state, myFactory){
 	// Some functions to update the state.
 	$scope.goToHome = function(){
 		$scope.poll =  [{pollStatus:"Closed", pollID:"cd5f4e71-0637-4839-93fa-78cd3d598dda", title:"Favourite Vegetable", description:"Poll to determine the most favourite vegetable.", question:"What is your favourite veggie?", answerCount:3, totalVotes:20, endDate:"2017-01-15T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite Vegetable Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"https://www.yfm.co.za/", author: "DJ John"}, {pollStatus:"Open", pollID:"57fc2f6d-82e7-e611-af1f-00dbdf9ddb35", title:"Favourite Fruit", description:"Poll to find out what is the most favourite fruit.", question:"What is your favourite fruit?", answerCount:3, totalVotes:20, endDate:"2017-02-19T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite fruit Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"https://www.yfm.co.za/", author: "DJ John"}, {pollStatus:"Open", pollID:"6a3fc393-82e7-e611-af1f-00dbdf9ddb35", title:"Favourite Genre", question:"What type of music would you like to hear today?", answerCount:4, totalVotes:10, startDate:"2017-01-31T08:00:00Z", endDate:"2017-01-31T17:00:00Z", thanksMessage:"Thanks for your feedback!", closedMessage:"The Genre Poll is now Closed!", websiteForSharing:"https://www.yfm.co.za/", author: "DJ John"}];
@@ -62,12 +100,24 @@ app.controller('cmsController', function($scope, $state){
 	$scope.goToResults = function(){
 		$state.go("results");
 	}
+	$scope.bob = [];
+	
+	$scope.gettingAllPolls = function(){
+		myFactory.funcAllPolls(function(data){
+			for(var index=0;index<data.length;index++){
+				$scope.bob.push(data[index]);
+				alert("bob");
+			}
+		});
+	}
+	
 	// Dummy content for now. Here is where the the API request will be made.
 	var data = [{pollStatus:"Closed", pollID:"cd5f4e71-0637-4839-93fa-78cd3d598dda", title:"Favourite Vegetable", description:"Poll to determine the most favourite vegetable.", question:"What is your favourite veggie?", answerCount:3, totalVotes:20, endDate:"2017-01-15T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite Vegetable Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"www.google.com", author: "DJ John"}, {pollStatus:"Open", pollID:"57fc2f6d-82e7-e611-af1f-00dbdf9ddb35", title:"Favourite Fruit", description:"Poll to find out what is the most favourite fruit.", question:"What is your favourite fruit?", answerCount:3, totalVotes:20, endDate:"2017-02-19T16:30:00Z", thanksMessage:"Thanks for participating in the Favourite fruit Poll!!", closedMessage:"The poll is now closed", websiteForSharing:"https://www.yfm.co.za", author: "DJ John"}];
 	
-	$scope.poll = data;
+	//$scope.poll = data;
 	
 	$scope.loadWidgetInfo = function(){
+		$scope.gettingLastPoll();
 		// Load stuff from dummy API.
 		$scope.ans = [];
 		$scope.ansVote = [];

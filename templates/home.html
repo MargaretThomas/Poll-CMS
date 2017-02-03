@@ -1,9 +1,9 @@
-<div id="divHome">
+<div id="divHome" ng-init="gettingAllPolls()">
 	<h1>Here are your polls</h1>
     <hr />
     <br />
     <div class="w3-row w3-content">
-		<div ng-repeat="obj in poll" class="w3-half">
+		<div ng-repeat="obj in bob" class="w3-half">
 			<single-poll poll="obj"></single-poll>
 			<br />
 		</div>
