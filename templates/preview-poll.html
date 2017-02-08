@@ -2,7 +2,9 @@
 	<h1>Here is what your widget will look like:</h1>
 	<hr />
     <br />
+	<!-- Displays what the widget will look like in the different states. -->
 	<div class="w3-row-padding">
+		<!-- Before voting. -->
 		<div class="w3-third">
 			<h2>First State</h2>
 			<div id="sp-FirstState" class="whiteBlock" ng-init="loadWidgetInfo()">
@@ -16,6 +18,7 @@
 				<time-left poll="newPoll.endDate"></time-left>
 			</div>
 		</div>
+		<!-- After voting. -->
 		<div class="w3-third">
 			<h2>Second State</h2>
 			<!-- SouthPoll as sp -->
@@ -37,6 +40,7 @@
 				<time-left></time-left>
 			</div>
 		</div>
+		<!-- Closed poll. -->
 		<div class="w3-third">
 			<h2>Third State</h2>
 			<!-- SouthPoll as sp -->
@@ -60,6 +64,7 @@
 	</div>
 	<br />
 	<br />
+	<!-- Back and Next Buttons. -->
 	<div class="w3-row">
 		<md-button id="backToAnswers" class="md-raised" ng-click="goToAddAnswers()">Back To Add Answers</md-button>	
 		<md-button id="publish" class="md-raised" ng-click="goToPublish()">Publish Poll</md-button>	

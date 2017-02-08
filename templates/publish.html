@@ -7,19 +7,23 @@
 			<h2 style="color:#000">{{newPoll.title}} has been successfully created</h2>	
 		</div>
 		<div class="w3-row">
+			<!-- Link to the website in which users can find the widget. -->
 			<div class="w3-half">
 				<fieldset class="orangeFieldset" style="height:150px">
 					<legend class="orangeLegend">Shareable Link</legend>
 					<p>Here is the link which you can use to share: <a href="{{newPoll.websiteForSharing}}" target="_blank">{{newPoll.websiteForSharing}}</a></p>		
 				</fieldset>
 			</div>
+			<!-- Code to nest in parent website. -->
 			<div class="w3-half">
 				<fieldset class="orangeFieldset" style="height:150px">
 					<legend class="orangeLegend">Embeddable Widget</legend>
-					<p>Here is the code for your widget:</p>		
+					<p>Here is the code for your widget:</p>
+					<p>http://widget.margaret.dx.am</p>
 				</fieldset>
 			</div>
 		</div>
+		<!-- Back and Next Buttons. -->
 		<div class="w3-row">
 			<md-button id="backToPreview" class="md-raised" ng-click="goToPreview()">Back To Preview Poll</md-button>	
 			<md-button id="home" class="md-raised" ng-click="goToHome()">Go Home</md-button>	

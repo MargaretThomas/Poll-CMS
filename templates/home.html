@@ -3,7 +3,8 @@
     <hr />
     <br />
     <div class="w3-row w3-content">
-		<div ng-repeat="obj in bob" class="w3-half">
+	<!-- Load all the polls for this tenant. -->
+		<div ng-repeat="obj in polls" class="w3-half">
 			<single-poll poll="obj"></single-poll>
 			<br />
 		</div>
