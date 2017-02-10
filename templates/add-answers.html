@@ -3,10 +3,10 @@
 	<hr />
     <br />
 	<div class="w3-content">
-		<div class="w3-center w3-row whiteBlock">
+		<div class="w3-center w3-row whiteBlock" ng-controller="cmsController">
 			<md-input-container class="formItem">
 				<label>Option 1:</label>
-				<input  type="text" name="option1" ng-model="option1" required="required" />
+				<input  type="text" name="option1" ng-model="answers.option1" required="required" />
 				<div ng-messages="option1.$error">
 					<div ng-message="required">This is required.</div>
 				</div>
@@ -14,7 +14,7 @@
 			<br />
 			<md-input-container class="formItem">
 				<label>Option 2:</label>
-				<input type="text" name="option2" ng-model="option2" required="required" />
+				<input type="text" name="option2" ng-model="answers.option2" required="required" />
 				<div ng-messages="option2.$error">
 					<div ng-message="required">This is required.</div>
 				</div>
@@ -22,12 +22,12 @@
 			<br />
 			<md-input-container class="formItem">
 				<label>Option 3:</label>
-				<input type="text" name="option3" ng-model="option3" />
+				<input type="text" name="option3" ng-model="answers.option3" />
 			</md-input-container>
 			<br />
 			<md-input-container class="formItem">
 				<label>Option 4:</label>
-				<input type="text" name="option4" ng-model="option4" />
+				<input type="text" name="option4" ng-model="answers.option4" />
 			</md-input-container>
 			<br />
 			<!-- Back and Next Buttons. -->

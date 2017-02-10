@@ -7,7 +7,7 @@
 		<!-- Before voting. -->
 		<div class="w3-third">
 			<h2>First State</h2>
-			<div id="sp-FirstState" class="whiteBlock" ng-init="loadWidgetInfo()">
+			<div id="sp-FirstState" class="whiteBlock"  ng-controller="cmsController" ng-init="loadWidgetInfo()">
 				<h2 id="fs-h2" style="font-weight: bold;color: #000;">{{newPoll.title}}</h2>
 				<h4 id="fs-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
 				<div id="fs-div" ng-repeat="x in ans">

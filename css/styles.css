@@ -5,7 +5,7 @@
 }
 
 /* Navigation Bar */
-ul#navBar{
+ul#navBar, ul#navBarResults{
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -13,10 +13,10 @@ ul#navBar{
     background-color: #FFF ;
     border: solid 1px #000;
 }
-li#navItem {
+li#navItem, li#navItemResults {
     float: left;
 }
-li#navItem a {
+li#navItem a, li#navItemResults a {
     display: block;
     color: #000;
     text-align: center;
@@ -24,7 +24,7 @@ li#navItem a {
     text-decoration: none;
     font-weight: bold;
 }
-li#navItem a:hover {
+li#navItem a:hover, li#navItemResults a:hover{
     background-color: #ED7D31; /* Dark Orange */
 	color: #FFF;
 	font-weight: bold;

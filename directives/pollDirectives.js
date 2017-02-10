@@ -18,8 +18,9 @@ app.directive("viewResults", function($state) {
         templateUrl: "templates/btnResult.html",
 		link: function(scope, elem, attrs){
 			elem.bind('click', function(){
-				//$state.go("results");
 				console.log(scope.id);
+				localStorage.setItem("resultGUID", scope.id);
+				$state.go("results");
 			});
 		}
     };
