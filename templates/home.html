@@ -5,7 +5,7 @@
     <div class="w3-row w3-content">
 	<!-- Load all the polls for this tenant. -->
 		<div ng-repeat="obj in polls" class="w3-half">
-			<single-poll poll="obj"></single-poll>
+			<single-poll poll="obj" total_votes="totalVotes[$index]"></single-poll>
 			<br />
 		</div>
     </div>

@@ -8,18 +8,21 @@
 		</div>
 		<div class="w3-row">
 			<!-- Link to the website in which users can find the widget. -->
-			<div class="w3-half">
-				<fieldset class="orangeFieldset" style="height:150px">
+			<div class="w3-center">
+				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Shareable Link</legend>
-					<p>Here is the link which you can use to share: <a href="{{newPoll.websiteForSharing}}" target="_blank">{{newPoll.websiteForSharing}}</a></p>		
+					<p>Here is the link which you can use to share: <a href="{{newPoll.sharingURL}}" target="_blank">{{newPoll.sharingURL}}</a></p>		
 				</fieldset>
 			</div>
+			
+		</div>
+		<div class="w3-row">
 			<!-- Code to nest in parent website. -->
-			<div class="w3-half">
-				<fieldset class="orangeFieldset" style="height:150px">
+			<div class="w3-center" ng-init="getNewlyCreatedPoll()">
+				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Embeddable Widget</legend>
 					<p>Here is the code for your widget:</p>
-					<p>http://widget.margaret.dx.am</p>
+					<p ng-model="embeddableCode"></p>
 				</fieldset>
 			</div>
 		</div>

@@ -1,10 +1,13 @@
 <!-- Fieldset for each poll. -->
 <fieldset class="orangeFieldset">
 	<legend class="orangeLegend">{{poll.poll_title}}</legend>
-	<p>Poll ID: {{poll.poll_guid}}</p>
+	<div style="float:right">
+		<close-poll id="poll.poll_guid"></close-poll>
+		<delete-poll id="poll.poll_guid"></delete-poll>
+	</div>
 	<p>Description: {{poll.poll_description}}</p>
 	<ul id="pollDetails">
-		<li>Total Votes: {{poll.totalVotes}}</li>
+		<li>Total Votes: {{total_votes}}</li>
 		<li>End Date: {{poll.end_date}}</li>
 		<li>Status: {{poll.status}}</li>
 		<li>Author: {{poll.author}}</li>
