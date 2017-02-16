@@ -7,28 +7,28 @@
 		<!-- Before voting. -->
 		<div class="w3-third">
 			<h2>First State</h2>
-			<div id="sp-FirstState" class="whiteBlock">
+			<div id="sp-FirstState" class="whiteBlock" style="text-align:center">
 				<h2 id="fs-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h4 id="fs-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
-				<div id="fs-div" ng-repeat="x in ans">
+				<div id="fs-div" ng-repeat="x in ans" align="center">
 					<answers data="x"></answers>
 				</div>
 				<p id="votesParagraph">0 people voted</p>
 				<p id="timeParagraph">Time Remaining:</p>
-				<time-left poll="newPoll.endDate"></time-left>
+				<time-left poll="newPoll.end_date"></time-left>
 			</div>
 		</div>
 		<!-- After voting. -->
 		<div class="w3-third">
 			<h2>Second State</h2>
 			<!-- SouthPoll as sp -->
-			<div id="sp-SecondState" class="whiteBlock">
+			<div id="sp-SecondState" class="whiteBlock" style="text-align:center">
 				<!-- SecondState as ss -->
 				<h2 id="ss-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h3 id="ss-h3" style="font-weight: bold;color: #000;">{{newPoll.thanks_message}}</h3>
 				<h4 id="ss-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
 					<p>You selected: {{chosenAnswer}}</p>
-				<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;">
+				<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
 					<th id="ss-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
 					<th id="ss-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
 					<th id="ss-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
@@ -38,21 +38,21 @@
 						<td id="ss-td3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{perc[$index]}}%</td>
 					</tr>
 				</table>
-				<p id="ss-totalVotes" >0 people voted</p>
-				<time-left></time-left>
+				<p id="ss-totalVotes">0 people voted</p>
+				<time-left poll="newPoll.end_date"></time-left>
 			</div>
 		</div>
 		<!-- Closed poll. -->
 		<div class="w3-third">
 			<h2>Third State</h2>
 			<!-- SouthPoll as sp -->
-			<div id="sp-ThirdState" class="whiteBlock">
+			<div id="sp-ThirdState" class="whiteBlock" style="text-align:center">
 				<!-- ThirdState as ts -->
 				<h2 id="ts-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h3 id="ts-h3" style="font-weight: bold;color: #000;">{{newPoll.closed_message}}</h3>
 				<h4 id="ts-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
 				<p id="ts-SelectedAnswer" >You selected: {{chosenAnswer}}</p>
-				<table id="ts-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;">
+				<table id="ts-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
 					<th id="ts-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
 					<th id="ts-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
 					<th id="ts-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>

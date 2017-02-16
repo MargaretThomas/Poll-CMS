@@ -2,6 +2,7 @@
 #pollBody{
 	background-color: #4D4D4D; /* Dark Grey */
 	height: 100%;
+	font-family: 'Raleway', sans-serif;
 }
 
 /* Navigation Bar */
@@ -35,6 +36,7 @@ h1, h2{
 	text-align: center;
     color: #FFF; /* White */
     font-weight: bold;
+	font-family: 'Raleway', sans-serif;
 }
 /* Fieldset for the poll */
 .orangeFieldset{

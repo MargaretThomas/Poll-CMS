@@ -351,23 +351,25 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			var h = absolute/60;
 			var m = absolute%60;
 			// Start Date.
-			starting.setHours(starting.getHours() + h);
-			starting.setMinutes(starting.getMinutes() + m);
+			starting.setHours(starting.getHours() - h);
+			starting.setMinutes(starting.getMinutes() - m);
 			// End Date.
-			ending.setHours(starting.getHours() + h);
-			ending.setMinutes(starting.getMinutes() + m);
+			ending.setHours(starting.getHours() - h);
+			ending.setMinutes(starting.getMinutes() - m);
 		} else if(difference < 0){
 			var absolute = Math.abs(difference);
 			// Add on the time.
 			var h = absolute/60;
 			var m = absolute%60;
 			// Start Date.
-			starting.setHours(starting.getHours() - h);
-			starting.setMinutes(starting.getMinutes() - m);
+			starting.setHours(starting.getHours() + h);
+			starting.setMinutes(starting.getMinutes() + m);
 			// End Date.
-			ending.setHours(starting.getHours() - h);
-			ending.setMinutes(starting.getMinutes() - m);
+			ending.setHours(starting.getHours() + h);
+			ending.setMinutes(starting.getMinutes() + m);
 		}
+		starting = starting.toISOString();
+		ending = ending.toISOString();
 		// Setting up the object, depends on how many answers there are.
 		var ans_count = 0;
 		var newPoll = {};
@@ -474,7 +476,7 @@ app.controller('cmsController', function($scope, $state, myFactory){
 				$scope.totalVotes = 0;
 				$scope.answersCount = [0,0,0,0];
 				$scope.answersPerc = [0,0,0,0];
-				toastr.error('Unable to received latest vote count. Please ensure that votes have been cast');
+				toastr.error(response.data);
 			}
 		}, metaEndpoint);
 	}

@@ -2,30 +2,9 @@
 app.directive("answers", function($state) {
     return {
 		restrict: "E",
-		scope:{
-			data: "=" // Current answer.
-		},
         templateUrl: "templates/btnVote.html",
-		link: function(scope, elem, attrs){
-			elem.bind('click', function(){
-				// Save poll information once the user has voted.
-				var poll = JSON.parse(localStorage.getItem("poll"));
-				poll.totalVotes++;
-				poll.pollStatus = "Open And Voted";
-				var answers = JSON.parse(localStorage.getItem("answers"));
-				for(var item in answers){
-					var singleAnswer = answers[item];
-					if(singleAnswer[0] == scope.data){
-						singleAnswer[1]++;
-					}
-				}
-				
-				localStorage.setItem("poll", JSON.stringify(poll));
-				localStorage.setItem("answers", JSON.stringify(answers));
-				localStorage.setItem("chosenAnswer", scope.data);
-				
-				$state.go("second");
-			});
+		scope:{
+			data: "="
 		}
     };
 });
@@ -38,7 +17,7 @@ app.directive('timeLeft', ['$interval', 'dateFilter', '$state', function($interv
 		var timeoutId;
 		
 		var poll = JSON.parse(localStorage.getItem("poll"));
-		var endDate = new Date(poll.endDate);
+		var endDate = new Date(poll.end_date);
 		
 		function updateTime() {
 			var currentDate = new Date();
