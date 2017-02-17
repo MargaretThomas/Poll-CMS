@@ -50,17 +50,16 @@ app.directive("closePoll", function(myFactory){
 						var pollDetails = response.data;
 						// Set the status = 3 : closes the poll.
 						pollDetails.status = 3;
-						var obj = {
-							id: poll_id,
-							polls: JSON.stringify(pollDetails),
-							tennantID: "98b6b223-6849-4c3b-8c50-1f42f26946ed"
-						};
+						var tennantID = "98b6b223-6849-4c3b-8c50-1f42f26946ed";
 						// Execute the PUT.
 						myFactory.funcClosePoll(function(response){
 							if(response.status >= 200 && response.status < 300){
-								toastr.success(pollDetails.poll_title+" closed!");
+								toastr.success(pollDetails.poll_title+" closed!");								
+								$state.go('home', {}, { reload: true });
+							} else {
+								toastr.error("Unable to closed the poll. Please try again.");
 							}
-						}, poll_id, obj);
+						}, poll_id, pollDetails, tennantID);
 					} else{
 						toastr.error("Unable to closed the poll. Please try again.");
 					}

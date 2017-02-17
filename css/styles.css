@@ -93,3 +93,6 @@ md-input-container label, md-placeholder{
 #divHome, #divAddPoll, #divAddAnswers, #divPreview, #divPublish, #divHelp{
 	background-color: #4D4D4D;
 }
+h1, h2, h3, h4, h5{
+	font-family: 'Raleway', sans-serif;
+}

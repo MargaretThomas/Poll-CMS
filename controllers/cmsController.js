@@ -106,16 +106,15 @@ app.factory('myFactory', ['$http',
 				});
 			}
 			// Close a poll.
-			var closePoll = function(callback, pollID, obj){
+			var closePoll = function(callback, pollID, pollDetails, tennant){
 				$http({
 				method: 'PUT',
 				url: 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/polls/'+pollID,
 				headers: {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*',
-					'mimeType': 'json'
+					'Accept': "*/*",
+					'Access-Control-Allow-Origin': '*'
 				},
-				data: obj
+				data: {id: pollID, polls: pollDetails, tennantID: tennant}
 				}).then(function successCallback(response) {
 					// This callback will be called asynchronously when the response is available.
 					callback(response);
@@ -209,6 +208,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url: "/results",
 		templateUrl: "templates/results-location.html"
 	})
+	.state("users", {
+		url: "/results",
+		templateUrl: "templates/results-users.html"
+	})
 	.state("help", {
 		url: "/help",
 		templateUrl: "templates/help.html"
@@ -220,7 +223,7 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		"closeButton": true,
 		"newestOnTop": true,
 		"progressBar": false,
-		"positionClass": "toast-top-left"
+		"positionClass": "toast-top-right"
 	};
 	// HOME.
 	$scope.goToHome = function(){
@@ -454,11 +457,39 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		var resultGUID = localStorage.getItem("resultGUID");
 		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/Answers/'+resultGUID;
 		var data;
-		$scope.answers = JSON.parse(localStorage.getItem("answers"));
+		$scope.answers = [];
+		
+		myFactory.funcSpecificPoll(function(response){
+			if(response.status >= 200 && response.status < 300){
+				// Successful Callback.
+				// Get the data.
+				var pollDetails = response.data;
+				var ans1 = pollDetails.answer.answer.charAt(0).toUpperCase() + pollDetails.answer.answer.substring(1).toLowerCase();
+				$scope.answers.push(ans1);
+				var ans2 = pollDetails.answer2.answer.charAt(0).toUpperCase() + pollDetails.answer2.answer.substring(1).toLowerCase();
+				$scope.answers.push(ans2);
+				if(pollDetails.answer3.answer != ""){
+					var ans3 = pollDetails.answer3.answer.charAt(0).toUpperCase() + pollDetails.answer3.answer.substring(1).toLowerCase();
+					$scope.answers.push(ans3);
+				}
+				if(pollDetails.answer4.answer != ""){
+					var ans4 = pollDetails.answer4.answer.charAt(0).toUpperCase() + pollDetails.answer4.answer.substring(1).toLowerCase();
+					$scope.answers.push(ans4);
+				}
+				localStorage.setItem("answersResult", JSON.stringify($scope.answers));
+				localStorage.setItem("ansCount", pollDetails.ans_count);
+			}
+		}, resultGUID);
 		myFactory.funcMetaData(function(response){
+			$scope.existingItemsVC = [];
 			if(response.status >= 200 && response.status < 300){
 				// Success callback.
 				data = response.data;
+				// Add existingItems.
+				for(var exist = 0; exist < $scope.answers.length; exist++){
+					$scope.existingItemsVC.push(exist);
+				}
+				console.log($scope.existingItems);
 				$scope.totalVotes = data.poll_vote_total;
 				$scope.answersCount = [];
 				$scope.answersCount.push(data.ans_vote_1);
@@ -474,8 +505,17 @@ app.controller('cmsController', function($scope, $state, myFactory){
 				toastr.success('Received latest vote counts!');
 			}else{
 				$scope.totalVotes = 0;
-				$scope.answersCount = [0,0,0,0];
-				$scope.answersPerc = [0,0,0,0];
+				var ansCount = localStorage.getItem("ansCount");
+				if(ansCount == 2){
+					$scope.answersCount = [0,0];
+					$scope.answersPerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.answersCount = [0,0,0];
+					$scope.answersPerc = [0,0,0];
+				}else{
+					$scope.answersCount = [0,0,0,0];
+					$scope.answersPerc = [0,0,0,0];
+				}
 				toastr.error(response.data);
 			}
 		}, metaEndpoint);
@@ -484,25 +524,258 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		var resultGUID = localStorage.getItem("resultGUID");
 		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/MetaDeviceModel/'+resultGUID;
 		var data;
+		$scope.deviceModel = [];
+		$scope.deviceModelCount = [];
+		$scope.deviceModelPerc = [];
+		$scope.totalVotes = 0;
+		var ansCount = localStorage.getItem("ansCount");
+				
 		myFactory.funcMetaData(function(response){
+			$scope.existingItemsDM = [];
 			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
 				var data = response.data;
 				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
-					$scope.deviceModel.push(data[arrayIndex].device_model_name);
+					var dm = data[arrayIndex].device_model_name.charAt(0).toUpperCase() + data[arrayIndex].device_model_name.substring(1).toLowerCase();
+					$scope.deviceModel.push(dm);
 					$scope.deviceModelCount.push(data[arrayIndex].device_model_count);
 					$scope.deviceModelPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
+					$scope.existingItemsDM.push(arrayIndex);
 				}
 				toastr.success('Received latest counts for device models!');
 			}else{
 				$scope.totalVotes = 0;
-				$scope.deviceModel = ['Device Model 1','Device Model 2','Device Model 3','Device Model 4'];
-				$scope.deviceModelCount = [0,0,0,0];
-				$scope.deviceModelPerc = [0,0,0,0];
-				toastr.error('Unable to received latest counts for device models. Please ensure that votes have been cast');
+				if(ansCount == 2){
+					$scope.deviceModel = ['Device Model 1','Device Model 2'];
+					$scope.deviceModelCount = [0,0];
+					$scope.deviceModelPerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.deviceModel = ['Device Model 1','Device Model 2','Device Model 3'];
+					$scope.deviceModelCount = [0,0,0];
+					$scope.deviceModelPerc = [0,0,0];
+				}else{
+					$scope.deviceModel = ['Device Model 1','Device Model 2','Device Model 3','Device Model 4'];
+					$scope.deviceModelCount = [0,0,0,0];
+					$scope.deviceModelPerc = [0,0,0,0];
+				}
+				toastr.error("Record could not be found");
 			}
 		}, metaEndpoint);
 	}
-	// DETELE A POLL.
-	
+	$scope.loadOSVersion = function(){
+		var resultGUID = localStorage.getItem("resultGUID");
+		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/MetaOSVersion/'+resultGUID;
+		var data;
+		$scope.os_version_name = [];
+		$scope.os_version_count = [];
+		$scope.osVersionPerc = [];
+		$scope.totalVotes = 0;
+		var ansCount = localStorage.getItem("ansCount");
+		
+		myFactory.funcMetaData(function(response){
+			$scope.existingItemsOV = [];
+			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
+				var data = response.data;
+				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+					var osV = data[arrayIndex].os_version_name.charAt(0).toUpperCase() + data[arrayIndex].os_version_name.substring(1).toLowerCase();
+					$scope.os_version_name.push(osV);
+					$scope.os_version_count.push(data[arrayIndex].os_version_count);
+					$scope.osVersionPerc.push(data[arrayIndex].percentage);
+					$scope.totalVotes = data[arrayIndex].total;
+					$scope.existingItemsOV.push(arrayIndex);
+				}
+				toastr.success('Received latest counts for OS versions!');
+			}else{
+				$scope.totalVotes = 0;
+				if(ansCount == 2){
+					$scope.os_version_name = ['OS Version 1','OS Version 2'];
+					$scope.os_version_count = [0,0];
+					$scope.osVersionPerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.os_version_name = ['OS Version 1','OS Version 2','OS Version 3'];
+					$scope.os_version_count = [0,0,0];
+					$scope.osVersionPerc = [0,0,0];
+				}else{
+					$scope.os_version_name = ['OS Version 1','OS Version 2','OS Version 3','OS Version 4'];
+					$scope.os_version_count = [0,0,0,0];
+					$scope.osVersionPerc = [0,0,0,0];
+				}
+				toastr.error("Record could not be found");
+			}
+		}, metaEndpoint);
+	}
+	$scope.loadManufacturerCount = function(){
+		var resultGUID = localStorage.getItem("resultGUID");
+		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/MetaManufacturer/'+resultGUID;
+		var data;
+		$scope.manufacturer_name = [];
+		$scope.manufacturer_count = [];
+		$scope.manufacturerPerc = [];
+		$scope.totalVotes = 0;
+		var ansCount = localStorage.getItem("ansCount");
+		
+		myFactory.funcMetaData(function(response){
+			$scope.existingItemsM = [];
+			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
+				var data = response.data;
+				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+					var manuName = data[arrayIndex].manufacturer_name.charAt(0).toUpperCase() + data[arrayIndex].manufacturer_name.substring(1).toLowerCase();
+					$scope.manufacturer_name.push(manuName);
+					$scope.manufacturer_count.push(data[arrayIndex].manufacturer_count);
+					$scope.manufacturerPerc.push(data[arrayIndex].percentage);
+					$scope.totalVotes = data[arrayIndex].total;
+					$scope.existingItemsM.push(arrayIndex);
+				}
+				toastr.success('Received latest counts for Manufacturers!');
+			}else{
+				$scope.totalVotes = 0;
+				if(ansCount == 2){
+					$scope.manufacturer_name = ['Manufacturer 1','Manufacturer 2'];
+					$scope.manufacturer_count = [0,0];
+					$scope.manufacturerPerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.manufacturer_name = ['Manufacturer 1','Manufacturer 2','Manufacturer 3'];
+					$scope.manufacturer_count = [0,0,0];
+					$scope.manufacturerPerc = [0,0,0];
+				}else{
+					$scope.manufacturer_name = ['Manufacturer 1','Manufacturer 2','Manufacturer 3','Manufacturer 4'];
+					$scope.manufacturer_count = [0,0,0,0];
+					$scope.manufacturerPerc = [0,0,0,0];
+				}
+				toastr.error("Record could not be found");
+			}
+		}, metaEndpoint);
+	}
+	$scope.loadOSType = function(){
+		var resultGUID = localStorage.getItem("resultGUID");
+		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/MetaOS/'+resultGUID;
+		var data;
+		$scope.os_type = [];
+		$scope.os_count = [];
+		$scope.osTypePerc = [];
+		$scope.totalVotes = 0;
+		var ansCount = localStorage.getItem("ansCount");
+		
+		myFactory.funcMetaData(function(response){
+			$scope.existingItemsOT = [];
+			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
+				var data = response.data;
+				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+					var osT = data[arrayIndex].os_type.charAt(0).toUpperCase() + data[arrayIndex].os_type.substring(1).toLowerCase();
+					$scope.os_type.push(osT);
+					$scope.os_count.push(data[arrayIndex].os_count);
+					$scope.osTypePerc.push(data[arrayIndex].percentage);
+					$scope.totalVotes = data[arrayIndex].total;
+					$scope.existingItemsOT.push(arrayIndex);
+				}
+				toastr.success('Received latest counts for OS types!');
+			}else{
+				$scope.totalVotes = 0;
+				if(ansCount == 2){
+					$scope.os_type = ['OS Type 1','OS Type 2'];
+					$scope.os_count = [0,0];
+					$scope.osTypePerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.os_type = ['OS Type 1','OS Type 2','OS Type 3'];
+					$scope.os_count = [0,0,0];
+					$scope.osTypePerc = [0,0,0];
+				}else{
+					$scope.os_type = ['OS Type 1','OS Type 2','OS Type 3','OS Type 4'];
+					$scope.os_count = [0,0,0,0];
+					$scope.osTypePerc = [0,0,0,0];
+				}
+				toastr.error("Record could not be found");
+			}
+		}, metaEndpoint);
+	}
+	$scope.loadLocationCount = function(){
+		var resultGUID = localStorage.getItem("resultGUID");
+		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/MetaLocation/'+resultGUID;
+		var data;
+		$scope.location_Name = [];
+		$scope.loc_Count = [];
+		$scope.locationPerc = [];
+		$scope.totalVotes = 0;
+		var ansCount = localStorage.getItem("ansCount");
+		
+		myFactory.funcMetaData(function(response){
+			$scope.existingItemsL = [];
+			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
+				var data = response.data;
+				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+					var locName = data[arrayIndex].location_Name.charAt(0).toUpperCase() + data[arrayIndex].location_Name.substring(1).toLowerCase();
+					$scope.location_Name.push(locName);
+					$scope.loc_Count.push(data[arrayIndex].loc_Count);
+					$scope.locationPerc.push(data[arrayIndex].percentage);
+					$scope.totalVotes = data[arrayIndex].total;
+					$scope.existingItemsL.push(arrayIndex);
+				}
+				toastr.success('Received latest counts for locations!');
+			}else{
+				$scope.totalVotes = 0;
+				if(ansCount == 2){
+					$scope.location_Name = ['Location 1','Location 2'];
+					$scope.loc_Count = [0,0];
+					$scope.locationPerc = [0,0];
+				}else if(ansCount == 3){
+					$scope.location_Name = ['Location 1','Location 2','Location 3'];
+					$scope.loc_Count = [0,0,0];
+					$scope.locationPerc = [0,0,0];
+				}else{
+					$scope.location_Name = ['Location 1','Location 2','Location 3','Location 4'];
+					$scope.loc_Count = [0,0,0,0];
+					$scope.locationPerc = [0,0,0,0];
+				}
+				toastr.error("Record could not be found");
+			}
+		}, metaEndpoint);
+	}
+	$scope.loadUsersCount = function(){
+		var resultGUID = localStorage.getItem("resultGUID");
+		var metaEndpoint = 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/AnsResult/UserData/'+resultGUID;
+		var data;
+		$scope.user_id = [];
+		$scope.user_name = [];
+		$scope.platform = [];
+		$scope.vote = [];
+		$scope.totalVotes = 0;
+		
+		var allAnswers = JSON.parse(localStorage.getItem("answersResult"));
+		
+		myFactory.funcMetaData(function(response){
+			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
+				var data = response.data;
+				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+					$scope.user_id.push(data[arrayIndex].user_id);
+					$scope.user_name.push(data[arrayIndex].user_name);
+					var ans = data[arrayIndex].answer.charAt(0).toUpperCase() + data[arrayIndex].answer.substring(1).toLowerCase();
+					$scope.platform.push(ans);
+					var ansID = data[arrayIndex].ans_id - 1;
+					$scope.vote.push(allAnswers[ansID]);
+					$scope.totalVotes = $scope.totalVotes + data[arrayIndex].total;
+				}
+				toastr.success('Received latest user data!');
+			}else{
+				$scope.totalVotes = 0;
+				var ansCount = localStorage.getItem("ansCount");
+				if(ansCount == 2){
+					$scope.user_id = [1,2];
+					$scope.user_name = ['User 1','User 2'];
+					$scope.platform = ['Platform 1','Platform 2']
+					$scope.vote = ['Answer 1','Answer 2'];
+				}else if(ansCount == 3){
+					$scope.user_id = [1,2,3];
+					$scope.user_name = ['User 1','User 2','User 3'];
+					$scope.platform = ['Platform 1','Platform 2','Platform 3']
+					$scope.vote = ['Answer 1','Answer 2','Answer 3'];
+				}else{
+					$scope.user_id = [1,2,3,4];
+					$scope.user_name = ['User 1','User 2','User 3','User 4'];
+					$scope.platform = ['Platform 1','Platform 2','Platform 3','Platform 4']
+					$scope.vote = ['Answer 1','Answer 2','Answer 3','Answer 4'];
+				}
+				toastr.error("Record could not be found");
+			}
+		}, metaEndpoint);
+	}
 });
