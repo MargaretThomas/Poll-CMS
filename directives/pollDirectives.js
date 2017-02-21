@@ -100,3 +100,19 @@ app.directive("deletePoll", function(myFactory, $state) {
 		}
     };
 });
+app.directive("copyCode", function(){
+	return{
+		restrict: "E",
+		scope:{
+			id: "=",
+			name: "="
+		},
+		templateUrl: "templates/copy-code.html",
+		link: function(scope, elem, attrs){
+			scope.codeToCopy = "<iframe src='http://widget.margaret.dx.am/index.html#/firstState/"+scope.id+"' width='400' height='500' style='background-color: #FFF;font-family: Lato, sans-serif;'></iframe>"
+			elem.bind('click', function(){
+				toastr.success("Embeddable code for your "+scope.name+" poll has been copied to your clipboard!");
+			});
+		}
+	}
+});

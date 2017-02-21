@@ -16,21 +16,24 @@
 			</div>
 			
 		</div>
+		<br />
+		<br />
 		<div class="w3-row">
 			<!-- Code to nest in parent website. -->
 			<div class="w3-center" ng-init="getNewlyCreatedPoll()">
 				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Embeddable Widget</legend>
 					<p>Here is the code for your widget:</p>
-					<p>{{embeddableCode}}</p>
+					<p ng-bind="embeddableCode"></p>
 				</fieldset>
 			</div>
 		</div>
+		<br />
+		<br />
 		<!-- Back and Next Buttons. -->
 		<div class="w3-row">
 			<md-button id="backToPreview" class="md-raised" ng-click="goToPreview()">Back To Preview Poll</md-button>	
 			<md-button id="home" class="md-raised" ng-click="goToHome()">Go Home</md-button>	
 		</div>
-		<p>{{embeddableCode}}</p>
 	</div>
 </div>

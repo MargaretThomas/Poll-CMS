@@ -96,3 +96,6 @@ md-input-container label, md-placeholder{
 h1, h2, h3, h4, h5{
 	font-family: 'Raleway', sans-serif;
 }
+.iconHover:hover{
+	background-color:#ED7D31;
+}

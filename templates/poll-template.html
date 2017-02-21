@@ -2,13 +2,13 @@
 <fieldset class="orangeFieldset">
 	<legend class="orangeLegend">{{poll.poll_title}}</legend>
 	<div style="float:right" class="w3-row">
-		<close-poll id="poll.poll_guid"></close-poll>
-		<delete-poll id="poll.poll_guid"></delete-poll>
+		<div style="float:right" class="iconHover"><copy-code id="poll.poll_guid" name="poll.poll_title"></copy-code></div>
+		<div style="float:right" class="iconHover"><delete-poll id="poll.poll_guid"></delete-poll></div>
 	</div>
 	<div  class="w3-row">
-		<p>Description: {{poll.poll_description}}</p>
+		<p>Question: {{poll.question}}</p>
 		<ul id="pollDetails">
-			<li>Total Votes: {{total_votes}}</li>
+			<li>Description: {{poll.poll_description}}</li>
 			<li>End Date: {{poll.end_date}}</li>
 			<li>Status: {{poll.status}}</li>
 			<li>Author: {{poll.author}}</li>

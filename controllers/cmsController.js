@@ -1,4 +1,4 @@
-var app = angular.module("pollApp", ["ui.router", "ngMaterial", "ngMessages"])
+var app = angular.module("pollApp", ["ui.router", "ngMaterial", "ngMessages", "ngclipboard"])
 app.factory('myFactory', ['$http',
         function($http) {
 			// Get all polls for the tenant.
@@ -39,7 +39,7 @@ app.factory('myFactory', ['$http',
 			var newPoll = function(callback, objPoll){
 				$http({
 					method: 'POST',
-					url: 'http:/pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/polls',
+					url: 'http://pollapi.azurewebsites.net/98b6b223-6849-4c3b-8c50-1f42f26946ed/api/polls',
 					headers: {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
@@ -433,7 +433,7 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			}
 			$scope.chosenAnswer = localStorage.getItem("chosenAnswer");
 		}
-				
+		$scope.embeddableCode = localStorage.getItem("embeddableCode");		
 	}
 	// PUBLISH A POLL.
 	$scope.getNewlyCreatedPoll = function(){
@@ -468,11 +468,11 @@ app.controller('cmsController', function($scope, $state, myFactory){
 				$scope.answers.push(ans1);
 				var ans2 = pollDetails.answer2.answer.charAt(0).toUpperCase() + pollDetails.answer2.answer.substring(1).toLowerCase();
 				$scope.answers.push(ans2);
-				if(pollDetails.answer3.answer != ""){
+				if(pollDetails.answer3.answer != "" && pollDetails.answer3.answer != undefined){
 					var ans3 = pollDetails.answer3.answer.charAt(0).toUpperCase() + pollDetails.answer3.answer.substring(1).toLowerCase();
 					$scope.answers.push(ans3);
 				}
-				if(pollDetails.answer4.answer != ""){
+				if(pollDetails.answer4.answer != "" && pollDetails.answer4.answer != undefined){
 					var ans4 = pollDetails.answer4.answer.charAt(0).toUpperCase() + pollDetails.answer4.answer.substring(1).toLowerCase();
 					$scope.answers.push(ans4);
 				}
@@ -482,14 +482,13 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		}, resultGUID);
 		myFactory.funcMetaData(function(response){
 			$scope.existingItemsVC = [];
+			$scope.notExistingItemsVC = [];
 			if(response.status >= 200 && response.status < 300){
 				// Success callback.
 				data = response.data;
-				// Add existingItems.
-				for(var exist = 0; exist < $scope.answers.length; exist++){
-					$scope.existingItemsVC.push(exist);
-				}
-				console.log($scope.existingItems);
+				
+				console.log($scope.existingItemsVC);
+				console.log($scope.notExistingItemsVC);
 				$scope.totalVotes = data.poll_vote_total;
 				$scope.answersCount = [];
 				$scope.answersCount.push(data.ans_vote_1);
@@ -503,6 +502,27 @@ app.controller('cmsController', function($scope, $state, myFactory){
 				$scope.answersPerc.push(data.percent3);
 				$scope.answersPerc.push(data.percent4);
 				toastr.success('Received latest vote counts!');
+				// Add existingItems.
+				if(data.ans_vote_1 == 0){
+					$scope.notExistingItemsVC.push(0);
+				}else{
+					$scope.existingItemsVC.push(0);
+				}
+				if(data.ans_vote_2 == 0){
+					$scope.notExistingItemsVC.push(1);
+				}else{
+					$scope.existingItemsVC.push(1);
+				}
+				if(data.ans_vote_3 == 0){
+					$scope.notExistingItemsVC.push(2);
+				}else{
+					$scope.existingItemsVC.push(2);
+				}
+				if(data.ans_vote_4 == 0){
+					$scope.notExistingItemsVC.push(3);
+				}else{
+					$scope.existingItemsVC.push(4);
+				}
 			}else{
 				$scope.totalVotes = 0;
 				var ansCount = localStorage.getItem("ansCount");
@@ -537,10 +557,12 @@ app.controller('cmsController', function($scope, $state, myFactory){
 				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
 					var dm = data[arrayIndex].device_model_name.charAt(0).toUpperCase() + data[arrayIndex].device_model_name.substring(1).toLowerCase();
 					$scope.deviceModel.push(dm);
-					$scope.deviceModelCount.push(data[arrayIndex].device_model_count);
+					$scope.deviceModelCount.push();
 					$scope.deviceModelPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
-					$scope.existingItemsDM.push(arrayIndex);
+					if(data[arrayIndex].device_model_count != 0){
+						$scope.existingItemsDM.push(arrayIndex);	
+					}
 				}
 				toastr.success('Received latest counts for device models!');
 			}else{
@@ -582,7 +604,9 @@ app.controller('cmsController', function($scope, $state, myFactory){
 					$scope.os_version_count.push(data[arrayIndex].os_version_count);
 					$scope.osVersionPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
-					$scope.existingItemsOV.push(arrayIndex);
+					if(data[arrayIndex].os_version_count != 0){
+						$scope.existingItemsOV.push(arrayIndex);	
+					}
 				}
 				toastr.success('Received latest counts for OS versions!');
 			}else{
@@ -624,7 +648,9 @@ app.controller('cmsController', function($scope, $state, myFactory){
 					$scope.manufacturer_count.push(data[arrayIndex].manufacturer_count);
 					$scope.manufacturerPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
-					$scope.existingItemsM.push(arrayIndex);
+					if(data[arrayIndex].manufacturer_count != 0){
+						$scope.existingItemsM.push(arrayIndex);
+					}
 				}
 				toastr.success('Received latest counts for Manufacturers!');
 			}else{
@@ -666,7 +692,9 @@ app.controller('cmsController', function($scope, $state, myFactory){
 					$scope.os_count.push(data[arrayIndex].os_count);
 					$scope.osTypePerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
-					$scope.existingItemsOT.push(arrayIndex);
+					if(data[arrayIndex].os_count != 0){
+						$scope.existingItemsOT.push(arrayIndex);
+					}
 				}
 				toastr.success('Received latest counts for OS types!');
 			}else{
@@ -708,7 +736,9 @@ app.controller('cmsController', function($scope, $state, myFactory){
 					$scope.loc_Count.push(data[arrayIndex].loc_Count);
 					$scope.locationPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
-					$scope.existingItemsL.push(arrayIndex);
+					if(data[arrayIndex].loc_Count != 0){
+						$scope.existingItemsL.push(arrayIndex);
+					}
 				}
 				toastr.success('Received latest counts for locations!');
 			}else{
