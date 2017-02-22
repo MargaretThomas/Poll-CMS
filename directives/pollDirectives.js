@@ -8,7 +8,6 @@ app.directive("singlePoll", function() {
 		},
         templateUrl: "templates/poll-template.html",
 		link: function(scope, elem, attrs){
-			console.log(scope.total_votes);
 		}
     };
 });
@@ -22,7 +21,6 @@ app.directive("viewResults", function($state) {
         templateUrl: "templates/btnResult.html",
 		link: function(scope, elem, attrs){
 			elem.bind('click', function(){
-				console.log(scope.id);
 				localStorage.setItem("resultGUID", scope.id);
 				$state.go("results");
 			});
@@ -64,8 +62,6 @@ app.directive("closePoll", function(myFactory){
 						toastr.error("Unable to closed the poll. Please try again.");
 					}
 				}, poll_id);
-				}else{
-					console.log("no");
 				}
 			});
 		}
@@ -83,7 +79,6 @@ app.directive("deletePoll", function(myFactory, $state) {
 				var confirmDelete = confirm("Are you sure that you want to delete this poll?");
 				if(confirmDelete){
 					var poll_id = scope.id;
-					console.log(poll_id);
 					var obj = {
 						id: poll_id,
 						tennantID: "98b6b223-6849-4c3b-8c50-1f42f26946ed"

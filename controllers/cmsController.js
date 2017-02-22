@@ -298,6 +298,45 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		// Validation:
 		if(!($scope.poll == undefined || $scope.poll.title == undefined || $scope.poll.description == undefined || $scope.poll.question == undefined || $scope.poll.closedMessage == undefined || $scope.poll.notifyText == undefined || $scope.poll.sharingURL == undefined || $scope.poll.author == undefined || $scope.poll.startDate == undefined || $scope.poll.startTime == undefined || $scope.poll.endDate == undefined || $scope.poll.endTime == undefined)){
 			toastr.info("Data entered is valid");
+			// Set the dates up. From the date time picker and time input.
+			var hours = new Date($scope.poll.startTime);
+			var oldStart = new Date($scope.poll.startDate);
+			var starting = new Date(oldStart.setHours(hours.getHours()));
+			starting = new Date(oldStart.setMinutes(hours.getMinutes()));
+			
+			var hours2 = new Date($scope.poll.endTime);
+			var oldEnd = new Date($scope.poll.endDate);
+			var ending = new Date(oldEnd.setHours(hours2.getHours()));
+			ending = new Date(oldEnd.setMinutes(hours2.getMinutes()));
+			
+			// Get the time offset.
+			var dateNow = new Date();
+			var difference = dateNow.getTimezoneOffset();
+			if(difference > 0){
+				var absolute = Math.abs(difference);
+				// Add on the time.
+				var h = absolute/60;
+				var m = absolute%60;
+				// Start Date.
+				starting.setHours(starting.getHours() - h);
+				starting.setMinutes(starting.getMinutes() - m);
+				// End Date.
+				ending.setHours(ending.getHours() - h);
+				ending.setMinutes(ending.getMinutes() - m);
+			} else if(difference < 0){
+				var absolute = Math.abs(difference);
+				// Add on the time.
+				var h = absolute/60;
+				var m = absolute%60;
+				// Start Date.
+				starting.setHours(starting.getHours() + h);
+				starting.setMinutes(starting.getMinutes() + m);
+				// End Date.
+				ending.setHours(ending.getHours() + h);
+				ending.setMinutes(ending.getMinutes() + m);
+			}
+			localStorage.setItem("starting",starting);
+			localStorage.setItem("ending",ending);
 			localStorage.setItem("poll", JSON.stringify($scope.poll));
 			$state.go("addAnswers");		
 		}else{
@@ -325,6 +364,8 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			var chosenAnswer = "";
 			localStorage.setItem("answers", JSON.stringify($scope.answers));
 			localStorage.setItem("chosenAnswer", chosenAnswer);
+			var starting = (new Date(localStorage.getItem("starting"))).toISOString();
+		var ending = (new Date(localStorage.getItem("ending"))).toISOString();
 			$state.go("preview");
 		}
 	}
@@ -333,65 +374,23 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		// Get data ready for publishing
 		$scope.poll = JSON.parse(localStorage.getItem("poll"));
 		$scope.answers = JSON.parse(localStorage.getItem("answers"));
-		
-		// Set the dates up. From the date time picker and time input.
-		var hours = new Date($scope.poll.startTime);
-		var oldStart = new Date($scope.poll.startDate);
-		var starting = new Date(oldStart.setHours(hours.getHours()));
-		starting = new Date(oldStart.setMinutes(hours.getMinutes()));
-		
-		var hours2 = new Date($scope.poll.endTime);
-		var oldEnd = new Date($scope.poll.endDate);
-		var ending = new Date(oldEnd.setHours(hours2.getHours()));
-		ending = new Date(oldEnd.setMinutes(hours2.getMinutes()));
-		
-		// Get the time offset.
-		var dateNow = new Date();
-		var difference = dateNow.getTimezoneOffset();
-		if(difference > 0){
-			var absolute = Math.abs(difference);
-			// Add on the time.
-			var h = absolute/60;
-			var m = absolute%60;
-			// Start Date.
-			starting.setHours(starting.getHours() - h);
-			starting.setMinutes(starting.getMinutes() - m);
-			// End Date.
-			ending.setHours(starting.getHours() - h);
-			ending.setMinutes(starting.getMinutes() - m);
-		} else if(difference < 0){
-			var absolute = Math.abs(difference);
-			// Add on the time.
-			var h = absolute/60;
-			var m = absolute%60;
-			// Start Date.
-			starting.setHours(starting.getHours() + h);
-			starting.setMinutes(starting.getMinutes() + m);
-			// End Date.
-			ending.setHours(starting.getHours() + h);
-			ending.setMinutes(starting.getMinutes() + m);
-		}
-		starting = starting.toISOString();
-		ending = ending.toISOString();
+		var starting = (new Date(localStorage.getItem("starting"))).toISOString();
+		var ending = (new Date(localStorage.getItem("ending"))).toISOString();
 		// Setting up the object, depends on how many answers there are.
 		var ans_count = 0;
 		var newPoll = {};
 		if($scope.answers.option3 == undefined && $scope.answers.option4 == undefined){
 			ans_count = 2;
 			newPoll = {"poll_title": $scope.poll.title,"poll_description": $scope.poll.description,"status": 1,"question": $scope.poll.question,"ans_count": ans_count,"answer": {"answer_id": 1,"answer": $scope.answers.option1},"answer2": {"answer_id": 2,"answer": $scope.answers.option2},"answer3": {"answer_id": 0,"answer": ""},"answer4": {"answer_id": 0,"answer": ""},"start_date": starting,"end_date": ending,"thanks_message": $scope.poll.thanksMessage,"closed_message": $scope.poll.closedMessage,  "notification_text": $scope.poll.notifyText,"share_url": $scope.poll.sharingURL,"author": $scope.poll.author};
-			console.log("2");
 		}else if($scope.answers.option3 == undefined && $scope.answers.option4 != undefined){
 			ans_count = 3;
 			newPoll = {"poll_title": $scope.poll.title,"poll_description": $scope.poll.description,"status": 1,"question": $scope.poll.question,"ans_count": ans_count,"answer": {"answer_id": 1,"answer": $scope.answers.option1},"answer2": {"answer_id": 2,"answer": $scope.answers.option2},"answer3": {"answer_id": 3,"answer": $scope.answers.option4},"answer4": {"answer_id": 0},"start_date": starting,"end_date": ending,"thanks_message": $scope.poll.thanksMessage,"closed_message": $scope.poll.closedMessage, "notification_text": $scope.poll.notifyText,"share_url": $scope.poll.sharingURL,"author": $scope.poll.author};
-			console.log("3..");
 		}else if($scope.answers.option3 != undefined && $scope.answers.option4 == undefined){
 			ans_count = 3;
 			newPoll = {"poll_title": $scope.poll.title,"poll_description": $scope.poll.description,"status": 1,"question": $scope.poll.question,"ans_count": ans_count,"answer": {"answer_id": 1,"answer": $scope.answers.option1},"answer2": {"answer_id": 2,"answer": $scope.answers.option2},"answer3": {"answer_id": 3,"answer": $scope.answers.option3},"answer4": {"answer_id": 0}, "start_date": starting,"end_date": ending,"thanks_message": $scope.poll.thanksMessage,"closed_message": $scope.poll.closedMessage,  "notification_text": $scope.answers.notifyText,"share_url": $scope.poll.sharingURL,"author": $scope.poll.author};
-			console.log("3.+");
 		}else{
 			ans_count = 4;
 			newPoll = {"poll_title": $scope.poll.title,"poll_description": $scope.poll.description,"status": 1,"question": $scope.poll.question,"ans_count": ans_count,"answer": {"answer_id": 1,"answer": $scope.answers.option1},"answer2": {"answer_id": 2,"answer": $scope.answers.option2},"answer3": {"answer_id": 3,"answer": $scope.answers.option3},"answer4": {"answer_id": 4,"answer": $scope.answers.option4},"start_date": starting,"end_date": ending,"thanks_message": $scope.poll.thanksMessage,"closed_message": $scope.poll.closedMessage,  "notification_text": $scope.poll.notifyText,"share_url": $scope.poll.sharingURL,"author": $scope.poll.author};
-			console.log("4");
 		}
 		
 		myFactory.funcNewPoll(function(response){
@@ -402,7 +401,6 @@ app.controller('cmsController', function($scope, $state, myFactory){
 						var data = response.data;
 						var latestGuid = data.poll_guid;
 						$scope.embeddableCode = "<iframe src='http://widget.margaret.dx.am/index.html#/firstState/"+latestGuid+"' width='400' height='500' style='background-color: #FFF;font-family: Lato, sans-serif;'></iframe>";
-						console.log($scope.embeddableCode);
 						localStorage.setItem("embeddableCode", $scope.embeddableCode);
 					} else{
 						toastr.error("Unable to receive the new created poll. Pleas refresh this page.")
@@ -486,9 +484,6 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			if(response.status >= 200 && response.status < 300){
 				// Success callback.
 				data = response.data;
-				
-				console.log($scope.existingItemsVC);
-				console.log($scope.notExistingItemsVC);
 				$scope.totalVotes = data.poll_vote_total;
 				$scope.answersCount = [];
 				$scope.answersCount.push(data.ans_vote_1);

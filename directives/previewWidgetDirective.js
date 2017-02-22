@@ -16,9 +16,7 @@ app.directive('timeLeft', ['$interval', 'dateFilter', '$state', function($interv
 		var format = "dd/MM/yyyy h:mm:ss a";
 		var timeoutId;
 		
-		var poll = JSON.parse(localStorage.getItem("poll"));
-		var endDate = new Date(poll.end_date);
-		
+		var endDate = new Date(localStorage.getItem("ending"));
 		function updateTime() {
 			var currentDate = new Date();
 			var extraHours = Math.abs(currentDate.getTimezoneOffset()/60);
