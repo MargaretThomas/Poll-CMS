@@ -111,3 +111,17 @@ app.directive("copyCode", function(){
 		}
 	}
 });
+app.directive("copyNewCode", function(){
+	return{
+		restrict: "E",
+		templateUrl: "templates/copy-new-code.html",
+		link: function(scope, elem, attrs){
+			var embeddableCode = localStorage.getItem("embeddableCode");
+			scope.embedCodeToCopy = embeddableCode;
+			var poll = JSON.parse(localStorage.getItem("poll"));
+			elem.bind('click', function(){
+				toastr.success("Embeddable code for your "+poll.title+" poll has been copied to your clipboard!");
+			});
+		}
+	}
+});

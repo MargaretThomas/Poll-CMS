@@ -1,10 +1,11 @@
 <div id="divPublish" ng-init="loadWidgetInfo()">
-	<h1>{{newPoll.title}}</h1>
+	<h1 style="font-family: 'Raleway', sans-serif;">Publish Poll</h1>
+	<h2 style="font-family: 'Raleway', sans-serif;">{{newPoll.title}}</h2>
 	<hr />
     <br />
 	<div class="w3-content whiteBlock" ng-controller="cmsController">
 		<div class="w3-row w3-center">
-			<h2 style="color:#000">{{newPoll.title}} has been successfully created</h2>	
+			<h2 style="color:#000; font-family: 'Raleway', sans-serif;">{{newPoll.title}} has been successfully created.</h2>	
 		</div>
 		<div class="w3-row">
 			<!-- Link to the website in which users can find the widget. -->
@@ -24,7 +25,7 @@
 				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Embeddable Widget</legend>
 					<p>Here is the code for your widget:</p>
-					<p ng-bind="embeddableCode"></p>
+					<copy-new-code></copy-new-code>
 				</fieldset>
 			</div>
 		</div>

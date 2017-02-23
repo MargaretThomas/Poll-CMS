@@ -223,7 +223,9 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		"closeButton": true,
 		"newestOnTop": true,
 		"progressBar": false,
-		"positionClass": "toast-top-right"
+		"positionClass": "toast-top-right",
+		"showMethod": "show",
+		"hideMethod": "hide"
 	};
 	// HOME.
 	$scope.goToHome = function(){
@@ -549,10 +551,10 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			$scope.existingItemsDM = [];
 			if(response.status >= 200 && response.status < 300 && response.data.length > 0) {
 				var data = response.data;
-				for(arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
+				for(var arrayIndex = 0; arrayIndex < data.length; arrayIndex++){
 					var dm = data[arrayIndex].device_model_name.charAt(0).toUpperCase() + data[arrayIndex].device_model_name.substring(1).toLowerCase();
 					$scope.deviceModel.push(dm);
-					$scope.deviceModelCount.push();
+					$scope.deviceModelCount.push(data[arrayIndex].device_model_count);
 					$scope.deviceModelPerc.push(data[arrayIndex].percentage);
 					$scope.totalVotes = data[arrayIndex].total;
 					if(data[arrayIndex].device_model_count != 0){

@@ -5,12 +5,11 @@
 		<div style="float:right" class="iconHover"><copy-code id="poll.poll_guid" name="poll.poll_title"></copy-code></div>
 		<div style="float:right" class="iconHover"><delete-poll id="poll.poll_guid"></delete-poll></div>
 	</div>
-	<div  class="w3-row">
+	<div class="w3-row">
 		<p>Question: {{poll.question}}</p>
 		<ul id="pollDetails">
 			<li>Description: {{poll.poll_description}}</li>
 			<li>End Date: {{poll.end_date}}</li>
-			<li>Status: {{poll.status}}</li>
 			<li>Author: {{poll.author}}</li>
 		</ul>
 		<!-- Sending through the current poll id so that the results page will show the results for that poll. -->

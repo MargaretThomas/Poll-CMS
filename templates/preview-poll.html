@@ -1,5 +1,7 @@
 <div id="divPreview" ng-controller="cmsController" ng-init="loadWidgetInfo()">
-	<h1>Here is what your widget will look like:</h1>
+	<h1 style="font-family: 'Raleway', sans-serif;">Preview Poll</h1>
+	<h2 style="font-family: 'Raleway', sans-serif;">Here is what your widget will look like:</h2>
+	<h4 style="font-family: 'Raleway', sans-serif; color:#FFF; text-align:center">If you are ready to publish, you can click the Publish Poll button. If not, you can return to make changes on the poll details.</h4>
 	<hr />
     <br />
 	<!-- Displays what the widget will look like in the different states. -->
@@ -10,9 +12,11 @@
 			<div id="sp-FirstState" class="whiteBlock" style="text-align:center">
 				<h2 id="fs-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h4 id="fs-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
+				<br />
 				<div id="fs-div" ng-repeat="x in ans" align="center">
 					<answers data="x"></answers>
 				</div>
+				<br />
 				<p id="votesParagraph">0 people voted</p>
 				<p id="timeParagraph">Time Remaining:</p>
 				<time-left></time-left>
@@ -27,18 +31,19 @@
 				<h2 id="ss-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h3 id="ss-h3" style="font-weight: bold;color: #000;">{{newPoll.thanks_message}}</h3>
 				<h4 id="ss-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
-					<p>You selected: {{chosenAnswer}}</p>
-				<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
-					<th id="ss-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
-					<th id="ss-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
-					<th id="ss-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
+					<p>You selected: {{answers.option1}}</p>
+				<table id="ss-table" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
+					<th id="ss-th1" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
+					<th id="ss-th2" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
+					<th id="ss-th3" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
 					<tr id="ss-tr" ng-repeat="item in answers" style="background-color: #FFF;">
-						<td id="ss-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{item}}</td>
-						<td id="ss-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ansVote[$index]}}</td>
-						<td id="ss-td3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{perc[$index]}}%</td>
+						<td id="ss-td1" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{item}}</td>
+						<td id="ss-td2" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{ansVote[$index]}}</td>
+						<td id="ss-td3" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{perc[$index]}}%</td>
 					</tr>
 				</table>
 				<p id="ss-totalVotes">0 people voted</p>
+				<p id="timeParagraph">Time Remaining:</p>
 				<time-left poll="newPoll.end_date"></time-left>
 			</div>
 		</div>
@@ -51,18 +56,21 @@
 				<h2 id="ts-h2" style="font-weight: bold;color: #000;">{{newPoll.poll_title}}</h2>
 				<h3 id="ts-h3" style="font-weight: bold;color: #000;">{{newPoll.closed_message}}</h3>
 				<h4 id="ts-h4" style="font-weight: bold;color: #000;">Question: {{newPoll.question}}</h4>
-				<p id="ts-SelectedAnswer" >You selected: {{chosenAnswer}}</p>
-				<table id="ts-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
-					<th id="ts-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
-					<th id="ts-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
-					<th id="ts-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
+				<p id="ts-SelectedAnswer" >You selected: {{answers.option1}}</p>
+				<table id="ts-table" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;" align="center">
+					<th id="ts-th1" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Answers</th>
+					<th id="ts-th2" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Count</th>
+					<th id="ts-th3" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;">Percentages</th>
 					<tr id="ts-tr" ng-repeat="item in answers" style="background-color: #FFF;">
-						<td id="ss-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{item}}</td>
-						<td id="ss-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{ansVote[$index]}}</td>
-						<td id="ss-td3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{perc[$index]}}%</td>
+						<td id="ss-td1" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{item}}</td>
+						<td id="ss-td2" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{ansVote[$index]}}</td>
+						<td id="ss-td3" style="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;">{{perc[$index]}}%</td>
 					</tr>
 				</table>
 				<p id="ts-totalVotes">0 people voted</p>
+				<br />
+				<br />
+				<p></p>
 			</div>
 		</div>
 	</div>
