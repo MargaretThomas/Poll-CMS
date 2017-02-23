@@ -12,9 +12,9 @@
 	<div class="w3-center" style="padding:10px">
 		<h3 style="color:#FFF; font-family: 'Raleway', sans-serif;">OS Version</h3>
 		<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 100%;height: 200px;border-radius: 6px; font-family: 'Raleway', sans-serif;" >
-			<th id="ss-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">OS Version Name</th>
-			<th id="ss-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">OS Version Count</th>
-			<th id="ss-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">Percentages</th>
+			<th id="ss-th1" style="color: #FFF; border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">OS Version Name</th>
+			<th id="ss-th2" style="color: #FFF; border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">OS Version Count</th>
+			<th id="ss-th3" style="color: #FFF; border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">Percentages</th>
 			<tr id="ss-tr" ng-repeat="version in os_version_name" style="background-color: #FFF;">
 				<td id="ss-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{version}}</td>
 				<td id="ss-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{os_version_count[$index]}}</td>
@@ -27,7 +27,7 @@
 		<br />
 		<div ng-repeat="exist in existingItemsOV">
 			<div class="w3-row">
-				<div class="w3-col w3-container" style="width:{{osVersionPerc[$index]}}%; height: 50px; background-color: #E85D22;"><p>{{os_version_name[$index]}} - {{osVersionPerc[$index]}}%</p></div>
+				<div class="w3-col w3-container" style="width:{{osVersionPerc[$index]}}%; height: 50px; color: #FFF; background-color: #E85D22;"><p>{{os_version_name[$index]}} - {{osVersionPerc[$index]}}%</p></div>
 				<div class="w3-rest w3-container" style="background-color: #FFF; height: 50px;"><p></p></div>
 			</div>
 			<br />
