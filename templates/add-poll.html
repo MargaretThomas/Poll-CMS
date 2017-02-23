@@ -1,89 +1,108 @@
 <div id="divAddPoll" >
-	<h1>Fill this with add poll info</h1>
+	<h1 style="font-family: 'Raleway', sans-serif;">Add Poll</h1>
+	<h2 style="font-family: 'Raleway', sans-serif;">Please fill out this form with the poll details.</h2>
 	<hr />
     <br />
 	<div class="w3-row w3-content">
-		<div class="w3-center whiteBlock">
-			<div class="w3-half">
-				<form>
-					<md-input-container class="formItem">
-						<label>Poll Title:</label>
-						<input  type="text" name="title" ng-model="title" required="required" />
-						<div ng-messages="title.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Poll Description:</label>
-						<input type="text" name="description" ng-model="description" required="required" />
-						<div ng-messages="description.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Poll Question:</label>
-						<input type="text" name="question" ng-model="question" required="required" />
-						<div ng-messages="question.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Thanks Message:</label>
-						<input type="text" name="thanksMessage" ng-model="thanksMessage" required="required" />
-						<div ng-messages="thanksMessage.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-datepicker ng-model="startDate" md-placeholder="Enter Start Date"></md-datepicker>
-					<!-- Add the start time -->
-				</form>
-			</div>
-			<div class="w3-half">
-				<form>
-					<md-input-container class="formItem">
-						<label>Closed Poll Message:</label>
-						<input type="text" name="closedMessage" ng-model="closedMessage" required="required" />
-						<div ng-messages="closedMessage.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Notification Text:</label>
-						<input type="text" name="notifyText" ng-model="notifyText" required="required" />
-						<div ng-messages="notifyText.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Website URL:</label>
-						<input type="text" name="sharingURL" ng-model="sharingURL" required="required" />
-						<div ng-messages="sharingURL.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-input-container class="formItem">
-						<label>Created by:</label>
-						<input type="text" name="createdBy" ng-model="createdBy" required="required" />
-						<div ng-messages="createdBy.$error">
-							<div ng-message="required">This is required.</div>
-						</div>
-					</md-input-container>
-					<br />
-					<md-datepicker ng-model="endDate" md-placeholder="Enter End Date"></md-datepicker>
-					<br />
-					<!-- Add the end time -->
-				</form>
-			</div>
+		<div class="w3-center whiteBlock" ng-controller="cmsController" ng-init="loadPollDetails()">
+			<form name="pollDetails">
+				<div class="w3-row">
+					<div class="w3-half">						
+						<md-input-container class="formItem">
+							<label>Poll Title:</label>
+							<input type="text" name="title" ng-model="poll.title" required="required" />
+							<div ng-messages="poll.title.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Poll Description:</label>
+							<input type="text" name="description" ng-model="poll.description" required="required" />
+							<div ng-messages="poll.description.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Poll Question:</label>
+							<input type="text" name="question" ng-model="poll.question" required="required" />
+							<div ng-messages="poll.question.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Thanks Message:</label>
+							<input type="text" name="thanksMessage" ng-model="poll.thanksMessage" required="required" />
+							<div ng-messages="poll.thanksMessage.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-datepicker ng-model="poll.startDate" md-placeholder="Enter Start Date"></md-datepicker>
+						<br />
+						<br />
+						<md-input-container class="formItem">
+							<label>Start Time:</label>
+							<input type="time" name="startTime" ng-model="poll.startTime" placeholder="HH:mm" required="required" />
+							<div ng-messages="poll.startTime.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+					<div class="w3-half">
+						<md-input-container class="formItem">
+							<label>Closed Poll Message:</label>
+							<input type="text" name="closedMessage" ng-model="poll.closedMessage" required="required" />
+							<div ng-messages="poll.closedMessage.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Notification Text:</label>
+							<input type="text" name="notifyText" ng-model="poll.notifyText" required="required" />
+							<div ng-messages="poll.notifyText.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Website URL:</label>
+							<input type="text" name="sharingURL" ng-model="poll.sharingURL" required="required" />
+							<div ng-messages="poll.sharingURL.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-input-container class="formItem">
+							<label>Created by:</label>
+							<input type="text" name="author" ng-model="poll.author" required="required" />
+							<div ng-messages="poll.author.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+						<br />
+						<md-datepicker ng-model="poll.endDate" md-placeholder="Enter End Date"></md-datepicker>
+						<br />
+						<br />
+						<md-input-container class="formItem">
+							<label>End Time:</label>
+							<input type="time" name="endTime" ng-model="poll.endTime" placeholder="HH:mm" required="required" />
+							<div ng-messages="poll.endTime.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+				<div class="w3-row">
+					<!-- Next Button -->
+					<md-button type="submit" id="addAnswers" class="md-raised" ng-click="goToAddAnswers()">Add Answers</md-button>
+				</div>
+			</form>
 			<br />
-			<br />
-			<md-button id="addAnswers" class="md-raised" ng-click="goToAddAnswers()">Add Answers</md-button>			
+			<br />			
 		</div>
 	</div>
 </div>

@@ -1,0 +1,36 @@
+<div class="w3-row w3-content" ng-init="loadLocationCount()">
+	<ul id="navBarResults">
+			<li id="navItemResults"><a ui-sref="voteCount">Vote Count</a></li>
+			<li id="navItemResults"><a ui-sref="deviceModel">Device Model</a></li>
+			<li id="navItemResults"><a ui-sref="osVersion">OS Version</a></li>
+			<li id="navItemResults"><a ui-sref="manufacturer">Manufacturer</a></li>
+			<li id="navItemResults"><a ui-sref="os">OS Type</a></li>
+			<li id="navItemResults"><a ui-sref="location">Location</a></li>
+			<li id="navItemResults"><a ui-sref="users">Users</a></li>
+	</ul>
+	<!-- Table to display the total count for each of the various location. -->
+	<div class="w3-center" style="padding:10px">
+		<h3 style="color:#FFF; font-family: 'Raleway', sans-serif;">Location</h3>
+		<table id="ss-table" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; width: 100%;height: 200px;border-radius: 6px;" >
+			<th id="ss-th1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">Location Name</th>
+			<th id="ss-th2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">Location Count</th>
+			<th id="ss-th3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22; font-family: 'Raleway', sans-serif;">Percentages</th>
+			<tr id="ss-tr" ng-repeat="location in location_Name" style="background-color: #FFF; font-family: 'Raleway', sans-serif;">
+				<td id="ss-td1" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{location}}</td>
+				<td id="ss-td2" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{loc_Count[$index]}}</td>
+				<td id="ss-td3" style="border: 1px solid grey;border-collapse: collapse;padding: 5px;text-align: center;">{{locationPerc[$index]}}%</td>
+			</tr>
+			<tr style="background-color: #FFF;">
+				<td colspan="3">Total Votes: {{totalVotes}}</td>
+			</tr>
+		</table>
+		<br />
+		<div ng-repeat="exist in existingItemsL">
+			<div class="w3-row">
+				<div class="w3-col w3-container" style="width:{{locationPerc[$index]}}%; height: 50px; background-color: #E85D22;"><p>{{location_Name[$index]}} - {{locationPerc[$index]}}%</p></div>
+				<div class="w3-rest w3-container" style="background-color: #FFF; height: 50px;"><p></p></div>
+			</div>
+			<br />
+		</div>
+	</div>
+</div>

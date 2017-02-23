@@ -1,10 +1,12 @@
-<div id="divHome">
-	<h1>Here are your polls</h1>
+<div id="divHome" ng-init="gettingAllPolls()">
+	<h1 style="font-family: 'Raleway', sans-serif;">Here are your polls</h1>
     <hr />
     <br />
     <div class="w3-row w3-content">
-		<div ng-repeat="obj in poll" class="w3-half">
-			<single-poll poll="obj"></single-poll>
+	<!-- Load all the polls for this tenant. -->
+		<div ng-repeat="obj in polls" class="w3-half">
+			<single-poll poll="obj" total_votes="totalVotes[$index]"></single-poll>
+			<br />
 		</div>
     </div>
 </div>

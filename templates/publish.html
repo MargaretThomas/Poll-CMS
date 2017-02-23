@@ -1,25 +1,37 @@
 <div id="divPublish" ng-init="loadWidgetInfo()">
-	<h1>{{newPoll.title}}</h1>
+	<h1 style="font-family: 'Raleway', sans-serif;">Publish Poll</h1>
+	<h2 style="font-family: 'Raleway', sans-serif;">{{newPoll.title}}</h2>
 	<hr />
     <br />
-	<div class="w3-content whiteBlock">
+	<div class="w3-content whiteBlock" ng-controller="cmsController">
 		<div class="w3-row w3-center">
-			<h2 style="color:#000">{{newPoll.title}} has been successfully created</h2>	
+			<h2 style="color:#000; font-family: 'Raleway', sans-serif;">{{newPoll.title}} has been successfully created.</h2>	
 		</div>
 		<div class="w3-row">
-			<div class="w3-half">
-				<fieldset class="orangeFieldset" style="height:150px">
+			<!-- Link to the website in which users can find the widget. -->
+			<div class="w3-center">
+				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Shareable Link</legend>
-					<p>Here is the link which you can use to share: <a href="{{newPoll.websiteForSharing}}" target="_blank">{{newPoll.websiteForSharing}}</a></p>		
+					<p>Here is the link which you can use to share: <a href="{{newPoll.sharingURL}}" target="_blank">{{newPoll.sharingURL}}</a></p>		
 				</fieldset>
 			</div>
-			<div class="w3-half">
-				<fieldset class="orangeFieldset" style="height:150px">
+			
+		</div>
+		<br />
+		<br />
+		<div class="w3-row">
+			<!-- Code to nest in parent website. -->
+			<div class="w3-center" ng-init="getNewlyCreatedPoll()">
+				<fieldset class="orangeFieldset" style="height:inherit">
 					<legend class="orangeLegend">Embeddable Widget</legend>
-					<p>Here is the code for your widget:</p>		
+					<p>Here is the code for your widget:</p>
+					<copy-new-code></copy-new-code>
 				</fieldset>
 			</div>
 		</div>
+		<br />
+		<br />
+		<!-- Back and Next Buttons. -->
 		<div class="w3-row">
 			<md-button id="backToPreview" class="md-raised" ng-click="goToPreview()">Back To Preview Poll</md-button>	
 			<md-button id="home" class="md-raised" ng-click="goToHome()">Go Home</md-button>	
