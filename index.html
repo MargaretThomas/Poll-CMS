@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="pollApp" ng-controller="cmsController" ng-init="loadBasedOnTime()">
 <head>
 	<title>Poll Manager</title>
 	<!-- Angular -->
@@ -16,7 +16,7 @@
 	<!-- HTML properties -->
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
 	<!-- Styles -->
-	<link rel="stylesheet" type="text/css" href="css/styles.css" /> 
+	<link rel="stylesheet" type="text/css" href="css/{{cssFile}}.css" /> 
 	<!-- W3 Styles -->
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> 
 	<!-- jQuery -->
@@ -41,13 +41,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"></script>
 	<script src="scripts/ngclipboard.min.js"></script>
 </head>
-<body id="pollBody" ng-app="pollApp" ng-controller="cmsController">
+<body id="pollBody">
 	<ul id="navBar">
 		<li id="navItem"><a ui-sref="home">Home</a></li>
 		<li id="navItem"><a ui-sref="addPoll">Add A New Poll</a></li>
 		<li id="navItem"><a ui-sref="help">Help</a></li>
 	</ul>
-	
+	<div style="float: right; margin-right: 20px">
+		<md-switch ng-model="status" aria-label="ModeSwitch" ng-change="changeMode(status)" style="color:{{modeColor}}">
+	  	  Night Mode: {{ mode }}
+	 	</md-switch>
+	</div>
 	<!-- Placeholder for the different pages -->
 	<div ui-view></div>
 </body>

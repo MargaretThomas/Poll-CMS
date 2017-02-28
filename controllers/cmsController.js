@@ -218,6 +218,42 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 app.controller('cmsController', function($scope, $state, myFactory){
+	// Setting night mode.
+	// Default is set to off.
+	$scope.status = "true";
+	// Swtich based on time.
+	$scope.loadBasedOnTime = function(){
+		var currentDate = new Date();
+		var currentHours = currentDate.getHours();
+		if(currentHours >= 8 && currentHours <= 12){
+			$scope.cssFile = "light";
+			$scope.status = "false";
+			$scope.mode = "off";
+			$scope.modeColor = "#000";
+		}else{
+			$scope.cssFile = "dark";
+			$scope.status = "true";
+			$scope.mode = "on";
+			$scope.modeColor = "#FFF";
+		}
+	}
+	// Load inline styline
+	$scope.loadInline = function(){
+		$scope.darkStyles = {
+
+		};
+	}
+	$scope.changeMode = function(statusMode){
+		if(statusMode){
+			$scope.cssFile = "dark";
+			$scope.mode = "on";
+			$scope.modeColor = "#FFF";
+		}else{
+			$scope.cssFile = "light";
+			$scope.mode = "off";
+			$scope.modeColor = "#000";
+		}
+	}
 	// Set the properties of the Toastr messages.
 	toastr.options = {
 		"closeButton": true,
