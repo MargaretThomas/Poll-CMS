@@ -225,22 +225,57 @@ app.controller('cmsController', function($scope, $state, myFactory){
 	$scope.loadBasedOnTime = function(){
 		var currentDate = new Date();
 		var currentHours = currentDate.getHours();
-		if(currentHours >= 8 && currentHours <= 12){
+		if(currentHours >= 8 && currentHours <= 17){
 			$scope.cssFile = "light";
 			$scope.status = "false";
 			$scope.mode = "off";
 			$scope.modeColor = "#000";
+			$scope.loadLightInline();
 		}else{
 			$scope.cssFile = "dark";
 			$scope.status = "true";
 			$scope.mode = "on";
 			$scope.modeColor = "#FFF";
+			$scope.loadDarkInline();
 		}
 	}
 	// Load inline styline
-	$scope.loadInline = function(){
-		$scope.darkStyles = {
-
+	$scope.loadLightInline = function(){
+		$scope.style = {
+			"h1Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h2Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h3Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h4Style": "font-family: 'Raleway', sans-serif; color:#FFF; text-align:center",
+			"previewBlock": "text-align:center",
+			"tblHeadingStyle": "font-weight: bold;color: #FFF;",
+			"tblStyle": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;",
+			"th": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;",
+			"tr": "background-color: #FFF;",
+			"td": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;",
+			"h4Widget": "color:#000;text-align:center; font-family: 'Raleway', sans-serif;",
+			"fieldset": "height:300px; background-color:4D4D4D",
+			"btnVote": "background-color: #E85D22;display: block;border-radius: 12px;border: none;text-align: center;text-decoration: none;font-size: 20px;margin: 5px;color: #FFF;padding: 5px;",
+			"tblH3": "color:#000; font-family: 'Raleway', sans-serif;",
+			"tblRest": "background-color: #4D4D4D; height: 50px;"
+		};
+	}
+	$scope.loadDarkInline = function(){
+		$scope.style = {
+			"h1Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h2Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h3Style": "color:#000; font-family: 'Raleway', sans-serif;",
+			"h4Style": "font-family: 'Raleway', sans-serif; color:#FFF; text-align:center",
+			"previewBlock": "text-align:center",
+			"tblHeadingStyle": "font-weight: bold;color: #000;",
+			"tblStyle": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; width: 50px;height: 50px;border-radius: 6px;",
+			"th": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center; background-color: #E85D22;",
+			"tr": "background-color: #FFF;",
+			"td": "border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;",
+			"h4Widget": "color:#000;text-align:center; font-family: 'Raleway', sans-serif;",
+			"fieldset": "height:300px",
+			"btnVote": "background-color: #E85D22;display: block;border-radius: 12px;border: none;text-align: center;text-decoration: none;font-size: 20px;margin: 5px;color: #FFF;padding: 5px;",
+			"tblH3": "color:#FFF; font-family: 'Raleway', sans-serif;",
+			"tblRest": "background-color: #FFF; height: 50px;"
 		};
 	}
 	$scope.changeMode = function(statusMode){
@@ -248,10 +283,12 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			$scope.cssFile = "dark";
 			$scope.mode = "on";
 			$scope.modeColor = "#FFF";
+			$scope.loadLightInline();
 		}else{
 			$scope.cssFile = "light";
 			$scope.mode = "off";
 			$scope.modeColor = "#000";
+			$scope.loadDarkInline();
 		}
 	}
 	// Set the properties of the Toastr messages.
