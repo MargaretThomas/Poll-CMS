@@ -218,29 +218,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 app.controller('cmsController', function($scope, $state, myFactory){
-	// Setting night mode.
-	// Default is set to off.
-	$scope.status = "true";
-	// Swtich based on time.
-	$scope.loadBasedOnTime = function(){
-		var currentDate = new Date();
-		var currentHours = currentDate.getHours();
-		if(currentHours >= 8 && currentHours <= 17){
-			$scope.cssFile = "light";
-			$scope.status = "false";
-			$scope.mode = "off";
-			$scope.modeColor = "#000";
-			$scope.loadLightInline();
-		}else{
-			$scope.cssFile = "dark";
-			$scope.status = "true";
-			$scope.mode = "on";
-			$scope.modeColor = "#FFF";
-			$scope.loadDarkInline();
-		}
-	}
+/*
+	$scope.myVar = 1;
+
+    $scope.$watch('myVar', function() {
+        alert('hey, myVar has changed!');
+    });
+*/
+	
 	// Load inline styline
-	$scope.loadLightInline = function(){
+	var loadLightInline = function(){
 		$scope.style = {
 			"h1Style": "color:#000; font-family: 'Raleway', sans-serif;",
 			"h2Style": "color:#000; font-family: 'Raleway', sans-serif;",
@@ -259,7 +246,7 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			"tblRest": "background-color: #4D4D4D; height: 50px;"
 		};
 	}
-	$scope.loadDarkInline = function(){
+	var loadDarkInline = function(){
 		$scope.style = {
 			"h1Style": "color:#000; font-family: 'Raleway', sans-serif;",
 			"h2Style": "color:#000; font-family: 'Raleway', sans-serif;",
@@ -278,18 +265,84 @@ app.controller('cmsController', function($scope, $state, myFactory){
 			"tblRest": "background-color: #FFF; height: 50px;"
 		};
 	}
+	// Setting night mode.
+	// Default is set to off.
+	$scope.status = "true";
+	var setDayMode = function(){
+		console.log("day");
+		$scope.cssPath = "css/light.css"
+		$scope.status = "false";
+		$scope.mode = "off";
+		$scope.modeColor = "#000";
+		loadLightInline();
+		$scope.greetings = "hello";
+	}
+	var setNightMode = function(){
+		console.log("night");
+		$scope.cssPath = "css/dark.css"
+		$scope.status = "true";
+		$scope.mode = "on";
+		$scope.modeColor = "#FFF";
+		loadDarkInline();
+		$scope.greetings = "goodbye";
+	}
 	$scope.changeMode = function(statusMode){
 		if(statusMode){
-			$scope.cssFile = "dark";
-			$scope.mode = "on";
-			$scope.modeColor = "#FFF";
-			$scope.loadLightInline();
+			setDayMode();
 		}else{
-			$scope.cssFile = "light";
-			$scope.mode = "off";
-			$scope.modeColor = "#000";
-			$scope.loadDarkInline();
+			setNightMode();
 		}
+	}
+	// Swtich based on time.
+	$scope.loadBasedOnTime = function(){
+		$scope.dayHours = 16;
+		$scope.dayMinutes = 49;
+		$scope.nightHours = 16;
+		$scope.nightMinutes = 50;
+		// Automatically check time.
+		var now = new Date();
+		var dayMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), $scope.dayHours, $scope.dayMinutes, 0, 0) - now;
+		var nightMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), $scope.nightHours, $scope.nightMinutes, 0, 0) - now;
+		console.log("day "+dayMillis);
+		console.log("night "+nightMillis);
+		// !. Before sunrise and before sunset = load night time:
+		if (dayMillis > 0 && nightMillis > 0) {
+			setNightMode();
+			// Setting timeout for switching to day mode.
+		     setTimeout(
+				function(){
+					// Load day mode.
+					setDayMode();
+					$scope.$apply();
+				}, 
+				dayMillis);
+		}
+		// 2. After sunrise but before sunset = load day time:
+		else if (dayMillis < 0 && nightMillis > 0) {
+			setDayMode();
+			// Setting timeout for switching to night mode.
+		     setTimeout(
+				function(){
+					// Load night mode.
+					setNightMode();
+					$scope.$apply();
+				}, 
+				nightMillis);
+		}
+		// 3. After sunset and before sunrise = load night time:
+		else if(nightMillis < 0 && dayMillis < 0){
+			// Set the timeout to be tomorrow @ the same hour.
+			dayMillis += 86400000; // 86400000 Millis = 24 hours.
+			setNightMode();
+			// Setting timeout for switching to day mode.
+		     setTimeout(
+				function(){
+					// Load day mode.
+					setDayMode();
+				}, 
+				dayMillis);
+		}
+		
 	}
 	// Set the properties of the Toastr messages.
 	toastr.options = {

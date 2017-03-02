@@ -16,7 +16,7 @@
 	<!-- HTML properties -->
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
 	<!-- Styles -->
-	<link rel="stylesheet" type="text/css" href="css/{{cssFile}}.css" /> 
+	<link rel="stylesheet" type="text/css" href="{{cssPath}}" /> 
 	<!-- W3 Styles -->
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> 
 	<!-- jQuery -->
@@ -47,6 +47,7 @@
 		<li id="navItem"><a ui-sref="addPoll">Add A New Poll</a></li>
 		<li id="navItem"><a ui-sref="help">Help</a></li>
 	</ul>
+	<div style="color:pink">{{greetings}}</div>
 	<div style="float: right; margin-right: 20px">
 		<md-switch ng-model="status" aria-label="ModeSwitch" ng-change="changeMode(status)" style="color:{{modeColor}}">
 	  	  Night Mode: {{ mode }}
