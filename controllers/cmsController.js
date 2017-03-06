@@ -1,6 +1,22 @@
 var app = angular.module("pollApp", ["ui.router", "ngMaterial", "ngMessages", "ngclipboard"])
 app.factory('myFactory', ['$http',
         function($http) {
+        	// Get the current sunrise and sunset times.
+			var gettingSunriseSunset = function(callback, lat, long){
+				$http({
+				method: 'GET',
+				url: 'http://api.sunrise-sunset.org/json?lat='+lat+'&lng='+long+'&date=today&formatted=0',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				}).then(function successCallback(response) {
+					// This callback will be called asynchronously when the response is available.
+					callback(response);
+				}, function errorCallback(response) {
+					// Called asynchronously if an error occurs or server returns response with an error status.
+					callback(response);
+				});
+			}
 			// Get all polls for the tenant.
 			var getAllPolls = function(callback){
 				$http({
@@ -144,6 +160,7 @@ app.factory('myFactory', ['$http',
 				});
 			}
             return {
+            	funcGetTimes: gettingSunriseSunset,
 				funcAllPolls: getAllPolls,
 				funcVoteCounts: getVoteCounts,
 				funcNewPoll: newPoll,
@@ -218,13 +235,30 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 app.controller('cmsController', function($scope, $state, myFactory){
-/*
-	$scope.myVar = 1;
+	var getCurrentLocation = function(){
+		if (navigator.geolocation){
+			function success(position) {
+			    var latitude  = position.coords.latitude;
+			    var longitude = position.coords.longitude;
+			    console.log(latitude);
+			    console.log(longitude);
+			    myFactory.funcGetTimes(function(response){
+			    	if(response.status >= 200 && response.status < 300){
+			    		var data = response.data.results;
+			    		var sunrise = data.sunrise;
+			    		var sunset = data.sunset;
+			    		console.log(sunset);
+			    	}
+			    }, latitude, longitude);
+			  }
 
-    $scope.$watch('myVar', function() {
-        alert('hey, myVar has changed!');
-    });
-*/
+			  function error() {
+			    toastr.error("Unable to get your current location.");
+			  }
+
+			  navigator.geolocation.getCurrentPosition(success, error);		
+		  }
+	}
 	
 	// Load inline styline
 	var loadLightInline = function(){
@@ -295,6 +329,7 @@ app.controller('cmsController', function($scope, $state, myFactory){
 	}
 	// Swtich based on time.
 	$scope.loadBasedOnTime = function(){
+		getCurrentLocation();
 		$scope.dayHours = 16;
 		$scope.dayMinutes = 49;
 		$scope.nightHours = 16;
