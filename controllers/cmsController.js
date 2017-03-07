@@ -235,31 +235,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 app.controller('cmsController', function($scope, $state, myFactory){
-	var getCurrentLocation = function(){
-		if (navigator.geolocation){
-			function success(position) {
-			    var latitude  = position.coords.latitude;
-			    var longitude = position.coords.longitude;
-			    console.log(latitude);
-			    console.log(longitude);
-			    myFactory.funcGetTimes(function(response){
-			    	if(response.status >= 200 && response.status < 300){
-			    		var data = response.data.results;
-			    		var sunrise = data.sunrise;
-			    		var sunset = data.sunset;
-			    		console.log(sunset);
-			    	}
-			    }, latitude, longitude);
-			  }
-
-			  function error() {
-			    toastr.error("Unable to get your current location.");
-			  }
-
-			  navigator.geolocation.getCurrentPosition(success, error);		
-		  }
-	}
-	
 	// Load inline styline
 	var loadLightInline = function(){
 		$scope.style = {
@@ -328,56 +303,107 @@ app.controller('cmsController', function($scope, $state, myFactory){
 		}
 	}
 	// Swtich based on time.
-	$scope.loadBasedOnTime = function(){
-		getCurrentLocation();
-		$scope.dayHours = 16;
-		$scope.dayMinutes = 49;
-		$scope.nightHours = 16;
-		$scope.nightMinutes = 50;
+	var loadBasedOnTime = function(dayHours, dayMinutes, nightHours, nightMinutes){
 		// Automatically check time.
 		var now = new Date();
-		var dayMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), $scope.dayHours, $scope.dayMinutes, 0, 0) - now;
-		var nightMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), $scope.nightHours, $scope.nightMinutes, 0, 0) - now;
+		var dayMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), dayHours, dayMinutes, 0, 0) - now;
+		var nightMillis = new Date(now.getFullYear(), now.getMonth(), now.getDate(), nightHours, nightMinutes, 0, 0) - now;
 		console.log("day "+dayMillis);
 		console.log("night "+nightMillis);
 		// !. Before sunrise and before sunset = load night time:
 		if (dayMillis > 0 && nightMillis > 0) {
 			setNightMode();
-			// Setting timeout for switching to day mode.
+			/*// Setting timeout for switching to day mode.
 		     setTimeout(
 				function(){
 					// Load day mode.
 					setDayMode();
 					$scope.$apply();
 				}, 
-				dayMillis);
+				dayMillis);*/
 		}
 		// 2. After sunrise but before sunset = load day time:
 		else if (dayMillis < 0 && nightMillis > 0) {
 			setDayMode();
-			// Setting timeout for switching to night mode.
+			/*// Setting timeout for switching to night mode.
 		     setTimeout(
 				function(){
 					// Load night mode.
 					setNightMode();
 					$scope.$apply();
 				}, 
-				nightMillis);
+				nightMillis);*/
 		}
 		// 3. After sunset and before sunrise = load night time:
 		else if(nightMillis < 0 && dayMillis < 0){
 			// Set the timeout to be tomorrow @ the same hour.
 			dayMillis += 86400000; // 86400000 Millis = 24 hours.
 			setNightMode();
-			// Setting timeout for switching to day mode.
+			/*// Setting timeout for switching to day mode.
 		     setTimeout(
 				function(){
 					// Load day mode.
 					setDayMode();
 				}, 
-				dayMillis);
+				dayMillis);*/
 		}
 		
+	}
+	$scope.getCurrentLocation = function(){
+		// If there's no location - user doesn't provide the location. Then set the default time to 8am to 5pm.
+		var dayHours = 8;
+		var dayMinutes = 0;
+		var nightHours = 17;
+		var nightMinutes = 0; 
+		// Default theme.
+		$scope.cssPath = "css/light.css"
+		// If the user allows for the location.
+		if (navigator.geolocation){
+			function success(position) {
+			    var latitude  = position.coords.latitude;
+			    var longitude = position.coords.longitude;
+			    console.log(latitude);
+			    console.log(longitude);
+			    myFactory.funcGetTimes(function(response){
+			    	if(response.status >= 200 && response.status < 300){
+			    		var data = response.data.results;
+			    		var sunrise = new Date(data.sunrise);
+			    		var sunset = new Date(data.sunset);
+			    		console.log(sunset);
+			    		dayHours = sunrise.getHours();
+			    		dayMinutes = sunrise.getMinutes();
+			    		nightHours = sunset.getHours();
+			    		nightMinutes = sunset.getMinutes();
+			    		console.log(dayHours +" "+ dayMinutes +" "+nightHours+" "+nightMinutes);
+		  				loadBasedOnTime(dayHours, dayMinutes, nightHours, nightMinutes);
+			    	}
+			    }, latitude, longitude);
+			  }
+
+			  function error(error) {
+				    	console.log(error.code);
+				    switch(error.code) {
+				        case error.PERMISSION_DENIED:
+				    		toastr.error("Unable to get your current location. Permission has been denied. Modes will use the default times.");
+				            break;
+				        case error.POSITION_UNAVAILABLE:
+				            toastr.error("Unable to get your current location. Position is unavailable. Modes will use the default times.");
+				            break;
+				        case error.TIMEOUT:
+				            toastr.error("Unable to get your current location. Timeout error. Modes will use the default times.");
+				            break;
+				        case error.UNKNOWN_ERROR:
+				            toastr.error("Unable to get your current location. Unknown error. Modes will use the default times.");
+				            break;
+			    }
+			}
+
+			  navigator.geolocation.getCurrentPosition(success, error);		
+		  }else{
+		  	console.log(dayHours +" "+ dayMinutes +" "+nightHours+" "+nightMinutes);
+		  	loadBasedOnTime(dayHours, dayMinutes, nightHours, nightMinutes);
+		  }		  
+		  
 	}
 	// Set the properties of the Toastr messages.
 	toastr.options = {
